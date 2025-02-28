@@ -31,7 +31,7 @@ import {NgIf} from '@angular/common';
 export class AppComponent {
   title = 'sn-calc';
   value: any;
-  sidebar = false;
+  sidebar = true;
 
   toggleSidebar() {
     this.sidebar = !this.sidebar;
