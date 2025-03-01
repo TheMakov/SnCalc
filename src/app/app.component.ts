@@ -6,22 +6,22 @@ import {FormsModule} from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {trigger, state, style, transition, animate} from '@angular/animations';
 import {NgIf} from '@angular/common';
+import {VariableBoxComponent} from './variable-box/variable-box.component';
 
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, NgIf],
+  imports: [ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
   animations: [
     trigger('toggle_sidebar', [
-      transition(':leave', [  // When the element appears
-        animate('500ms ease-in-out', style({ marginLeft: '-25vw' }))
-      ]),
-      transition(':enter', [  // When the element disappears
-        style({  marginLeft: '-25vw' }),  // Ensure position is set
-        animate('500ms ease-in-out', style({ marginLeft: '0vw' }))
+      state('open', style({ marginLeft: '-2vw' })),
+      state('closed', style({ marginLeft: '-40vw' })),
+
+      transition('open <=> closed', [
+        animate('500ms ease-in-out')
       ])
     ])
   ]

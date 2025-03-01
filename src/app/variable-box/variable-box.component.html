@@ -1,1 +1,17 @@
-<p>variable-box works!</p>
+<div class = "main-container">
+  <p class = "helvetica title">Expression variable</p>
+  <p-floatlabel variant="on">
+    <input pSize="large" [attr.size]="40" pInputText id="over_label_name" [(ngModel)]="name" autocomplete="off" />
+    <label class="helvetica" for="over_label_name">Variable name</label>
+  </p-floatlabel>
+  <p-floatlabel class = "variable" variant="on">
+    <input pSize="large" [attr.size]="40" pInputText id="over_label_value" [(ngModel)]="name" autocomplete="off" />
+    <label class="helvetica" for="over_label_value">Value</label>
+  </p-floatlabel>
+  <div>
+    <p-toggle-button class = "toggle helvetica" [(ngModel)]="checked" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
+    <p-button class="save-button helvetica" label = "save"></p-button>
+  </div>
+  <hr class="solid">
+
+</div>

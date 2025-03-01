@@ -1,8 +1,9 @@
 <main class="main">
-  <div *ngIf="sidebar" @toggle_sidebar class="sidebar">
+  <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar">
     <div class ="plus-button">
-      <hr class="solid">
-      <p-button icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true"></p-button>
+      <variable-box></variable-box>
+      
+      <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true"></p-button>
     </div>
   </div>
   <div class = "container">

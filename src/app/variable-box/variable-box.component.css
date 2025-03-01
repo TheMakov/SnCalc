@@ -1,0 +1,20 @@
+.variable{
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.toggle{
+  margin-top: 1vh;
+}
+
+hr.solid {
+  height: 0.2vh;
+  background-color: #bcbcbc;
+  width: 24vw;
+  border-radius: 2em;
+}
+
+.save-button {
+  width: 100%;
+}
+

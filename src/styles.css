@@ -6,4 +6,16 @@ html, body {
   font-size: .9vw;
 }
 
+.helvetica{
+  font-family: Helvetica, sans-serif;
+  font-weight: bolder;
+}
+
+
+.p-togglebutton {
+  background-color: #e8e8e8 !important;
+  color: #333333 !important;
+  margin-top: 0.25vh;
+}
+
 
