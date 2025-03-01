@@ -1,13 +1,14 @@
 .main{
   display: flex;
   flex-direction: row;
+  justify-content: space-around;
 }
 .container{
   width: 70%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 16em;
+  margin-top: 20%;
   height: 60%
 }
 .solve-button{
@@ -23,17 +24,37 @@
 }
 
 .sidebar{
-  margin-top: -0.5em;
-  width: 25%;
-  height: 40%;
-  background: red;
-  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-left: 0;
+  width: 25vw;
+  max-height: 100vh;
+  background: #f4f4f4;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  align-items: center;
+  border-right: 0.15vw solid #bbbbbb;
 }
 
-::-webkit-scrollbar{
-  width: 5px;!important;
+.sidebar::-webkit-scrollbar{
+  width: 0.4vw;
 }
-::-webkit-scrollbar-thumb {
-  background: #888; /* Scrollbar color */!important;
-  border-radius: 3px!important;
+.sidebar::-webkit-scrollbar-thumb {
+  background: #cfcfcf; /* Scrollbar color */
+  border-radius: 0.25em;
+}
+
+.plus-button {
+  margin-top: 1vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+hr.solid {
+  height: 0.2vh;
+  background-color: #bcbcbc;
+  width: 24vw;
+  border-radius: 2em;
 }
