@@ -15,7 +15,16 @@ html, body {
 .p-togglebutton {
   background-color: #e8e8e8 !important;
   color: #333333 !important;
-  margin-top: 0.25vh;
+  width: 9vw!important;
 }
 
+
+.save-button {
+  margin-top: 0.40vh !important;
+  height: 2em!important;
+  width: 100% !important;
+  margin-left: 0.5em !important;
+  margin-right: 0.5em !important;
+
+}
 

@@ -14,7 +14,11 @@ hr.solid {
   border-radius: 2em;
 }
 
-.save-button {
-  width: 100%;
+
+
+.button-row{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 

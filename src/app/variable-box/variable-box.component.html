@@ -8,10 +8,11 @@
     <input pSize="large" [attr.size]="40" pInputText id="over_label_value" [(ngModel)]="name" autocomplete="off" />
     <label class="helvetica" for="over_label_value">Value</label>
   </p-floatlabel>
-  <div>
+  <div class = "button-row">
     <p-toggle-button class = "toggle helvetica" [(ngModel)]="checked" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
-    <p-button class="save-button helvetica" label = "save"></p-button>
+    <p-button class = "save-button helvetica" label="save" styleClass = "save-button" />
   </div>
+
   <hr class="solid">
 
 </div>
