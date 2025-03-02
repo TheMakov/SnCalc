@@ -14,11 +14,27 @@ hr.solid {
   border-radius: 2em;
 }
 
-
-
 .button-row{
   display: flex;
   flex-direction: row;
   align-items: center;
 }
+
+
+.scroll-content {
+  display: flex; /* Arrange items horizontally */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow-x: auto; /* Enable horizontal scrolling */
+}
+
+.upper-row-element{
+  display: flex;
+  flex-direction: column;
+}
+
+.upper-row{
+  display: flex;
+  flex-direction: row;
+}
+
 

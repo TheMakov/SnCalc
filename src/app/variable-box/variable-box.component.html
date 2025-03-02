@@ -4,10 +4,21 @@
     <input pSize="large" [attr.size]="40" pInputText id="over_label_name" [(ngModel)]="name" autocomplete="off" />
     <label class="helvetica" for="over_label_name">Variable name</label>
   </p-floatlabel>
-  <p-floatlabel class = "variable" variant="on">
+  <p-floatlabel *ngIf="!checked" class = "variable" variant="on">
     <input pSize="large" [attr.size]="40" pInputText id="over_label_value" [(ngModel)]="name" autocomplete="off" />
     <label class="helvetica" for="over_label_value">Value</label>
   </p-floatlabel>
+  <div class="matrix-variable" *ngIf="checked">
+    <!-- add upper row and arrows here -->
+    <div class ="upper-row">
+      <div *ngFor="let item of matrix_upper_row_value_string" class="upper-row-element">
+        <p>{{item}}</p>
+        <i class="pi pi-arrow-down"></i>
+      </div>
+    </div>
+    <p-input-otp [integerOnly]="true" [length]="matrix_length" [(ngModel)]="matrix_value" (ngModelChange)="update_otp_length()"></p-input-otp>
+  </div>
+
   <div class = "button-row">
     <p-toggle-button class = "toggle helvetica" [(ngModel)]="checked" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
     <p-button class = "save-button helvetica" label="save" styleClass = "save-button" />
