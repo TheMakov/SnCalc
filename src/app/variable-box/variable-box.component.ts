@@ -1,13 +1,11 @@
-import {ChangeDetectorRef, Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {ToggleButton} from 'primeng/togglebutton';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
-import {ScrollPanel} from 'primeng/scrollpanel';
-import {Scroller} from 'primeng/scroller';
-import {InputOtp} from 'primeng/inputotp';
+import {NgForOf, NgIf} from '@angular/common';
+import {TableModule} from 'primeng/table';
 
 
 @Component({
@@ -20,6 +18,8 @@ import {InputOtp} from 'primeng/inputotp';
     ToggleButton,
     Button,
     NgIf,
+    TableModule,
+    NgForOf,
   ],
   templateUrl: './variable-box.component.html',
   styleUrl: './variable-box.component.css'
@@ -28,27 +28,35 @@ export class VariableBoxComponent {
   name: any;
   value: any;
   checked: any = true;
-
-  matrix_upper_row_value_string:any  = ['1', '2'];
-  matrix_value: string = "";
-  matrix_length: any = 2;
-
-  constructor(private cdr: ChangeDetectorRef) {}
+  valid : boolean = true;
 
 
-  update_otp_length (){
-    let old_value_length = this.matrix_value.length;
-    let old_matrix_length = this.matrix_length;
-    this.matrix_length = this.matrix_value.length +2;
-    if(old_matrix_length >= old_value_length+2){
-      this.matrix_upper_row_value_string.pop()
-      console.log(this.matrix_upper_row_value_string);
+  columns = [0];  // Starts with 1 column
+  tableData: number [][] = [
+    [1],  // First row
+    [1]   // Second row
+  ];
+  defaultValue = 0; // Default number to fill empty slots
+
+
+  onFinishedEdit(rowIndex: number, colIndex: number){
+    this.valid = this.matrixIsValid();
+    if(this.tableData[0][colIndex] == null && this.tableData[1][colIndex] == null){
+      this.removeColumn(colIndex);
     }
-    else{
-      this.matrix_upper_row_value_string.push((old_value_length +2).toString());
-      console.log(this.matrix_upper_row_value_string);
-    }
-
-
   }
+  matrixIsValid(): boolean {
+    return !(this.hasDuplicates(this.tableData[0]) || this.hasDuplicates(this.tableData[1]));
+  }
+
+  hasDuplicates(arr:number[]){
+    return new Set(arr).size !== arr.length;
+  }
+
+  removeColumn(columnIndex:number){
+    this.tableData[1].splice(columnIndex,1);
+    this.tableData[0].splice(columnIndex,1);
+  }
+
+  protected readonly onblur = onblur;
 }
