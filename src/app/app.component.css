@@ -30,7 +30,7 @@
   background: #f4f4f4;
   overflow-y: scroll;
   overflow-x: hidden;
-  align-items: center;
+  align-items: stretch;
   border-right: 0.15vw solid #bbbbbb;
 }
 
@@ -47,6 +47,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+input {
+  width: 55vw;
+  height: 3em;
 }
 
 

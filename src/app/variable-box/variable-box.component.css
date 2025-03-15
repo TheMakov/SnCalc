@@ -21,12 +21,6 @@ hr.solid {
 }
 
 
-.scroll-content {
-  display: flex; /* Arrange items horizontally */
-  white-space: nowrap; /* Prevent wrapping */
-  overflow-x: auto; /* Enable horizontal scrolling */
-}
-
 .upper-row-element{
   display: flex;
   flex-direction: column;
@@ -35,6 +29,17 @@ hr.solid {
 .upper-row{
   display: flex;
   flex-direction: row;
+}
+
+.main-container{
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  width: 15vw;
+}
+
+input{
+  width: 24vw;
 }
 
 

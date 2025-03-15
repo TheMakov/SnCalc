@@ -20,8 +20,6 @@ import {InputOtp} from 'primeng/inputotp';
     ToggleButton,
     Button,
     NgIf,
-    InputOtp,
-    NgForOf,
   ],
   templateUrl: './variable-box.component.html',
   styleUrl: './variable-box.component.css'
