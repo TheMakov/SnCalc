@@ -36,13 +36,13 @@ export class VariableBoxComponent {
     [1],  // First row
     [1]   // Second row
   ];
-  defaultValue = 0; // Default number to fill empty slots
 
-
+  //I dont know if I want to let this in see how it feels during further development, but works as intended
   onFinishedEdit(rowIndex: number, colIndex: number){
     this.valid = this.matrixIsValid();
-    if(this.tableData[0][colIndex] == null && this.tableData[1][colIndex] == null){
-     // this.removeColumn(colIndex);
+    if((this.tableData[0][colIndex] == null||this.tableData[0][colIndex] == undefined) && (this.tableData[1][colIndex] == null || this.tableData[1][colIndex] == undefined)){
+      this.removeColumn(colIndex);
+      this.columns.pop()
     }
   }
 
@@ -57,10 +57,6 @@ export class VariableBoxComponent {
     else if((this.tableData[0][columnsCount-2] == null ||this.tableData[0][columnsCount-2] == undefined) && (this.tableData[1][columnsCount-2] == null ||this.tableData[1][columnsCount-2] == undefined)){
       this.columns.pop();
     }
-
-    console.log((this.tableData[0][this.columns.length-1] !== null && this.tableData[0][this.columns.length-1] !== undefined));
-    console.log((this.tableData[0][this.columns.length-1]))
-    console.log(this.tableData)
   }
 
   onInput(){
