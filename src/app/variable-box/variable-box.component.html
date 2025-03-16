@@ -13,7 +13,7 @@
     <p-table [value]="tableData" [style]="{'width': '100%'}">
       <ng-template pTemplate="header">
         <tr>
-          <th *ngFor="let col of tableData[0]; let colIndex = index">
+          <th *ngFor="let col of columns; let colIndex = index">
             Column {{ colIndex + 1 }}
           </th>
         </tr>
@@ -24,8 +24,8 @@
           <td *ngFor="let col of columns; let colIndex = index" pEditableColumn>
             <p-cellEditor>
               <ng-template pTemplate="input">
-                <input class="small-input" pInputText type="number" [(ngModel)]="tableData[rowIndex][colIndex]"
-                       (blur)="onFinishedEdit(rowIndex, colIndex)" />
+                <input (focusin)="OnFocus()" (keydown)="OnKeyEvent($event, rowIndex, colIndex)" class="small-input" pInputText type="number" [(ngModel)]="tableData[rowIndex][colIndex]"
+                       (input)="onInput()" (blur)="onFinishedEdit(rowIndex, colIndex)" />
               </ng-template>
               <ng-template pTemplate="output">
                 {{ tableData[rowIndex][colIndex] }}
