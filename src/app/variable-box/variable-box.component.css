@@ -67,3 +67,20 @@ hr.solid {
   /*border: 1em solid #ccc;
   /*font-size: 14em;*/
 }
+
+.warning{
+  color: #131313;
+  text-align: start;
+}
+
+.warning-box{
+  margin-left: 1.7vw;
+  width: 20vw;
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  border: .17rem solid #ff0c04;
+  border-radius: .6rem;
+  align-items: center;
+  justify-content: space-around;
+}

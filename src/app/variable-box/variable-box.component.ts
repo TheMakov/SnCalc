@@ -31,19 +31,20 @@ export class VariableBoxComponent {
   checked: any = true;
   valid : boolean = true;
 
-  columns = [0];  // Starts with 1 column
+  columns = [0,1 ];  // Starts with 1 column
   tableData: number [][] = [
-    [1],  // First row
-    [1]   // Second row
+    [1, 2],  // First row
+    [1, 2]   // Second row
   ];
 
-  //I dont know if I want to let this in see how it feels during further development, but works as intended
+  //I don't know if I want to let this in see how it feels during further development, but works as intended
   onFinishedEdit(rowIndex: number, colIndex: number){
     this.valid = this.matrixIsValid();
-    if((this.tableData[0][colIndex] == null||this.tableData[0][colIndex] == undefined) && (this.tableData[1][colIndex] == null || this.tableData[1][colIndex] == undefined)){
+    if((this.tableData[0][colIndex] == null||this.tableData[0][colIndex] == undefined) && (this.tableData[1][colIndex] == null || this.tableData[1][colIndex] == undefined) &&  colIndex !== this.columns.length-1){
       this.removeColumn(colIndex);
       this.columns.pop()
     }
+
   }
 
   checkMatrixLength(){
@@ -90,12 +91,21 @@ export class VariableBoxComponent {
     }
   }
 
-  addColumn(){
-
-  }
 
   matrixIsValid(): boolean {
-    return !(this.hasDuplicates(this.tableData[0]) || this.hasDuplicates(this.tableData[1]));
+    if((this.hasDuplicates(this.tableData[0]) || this.hasDuplicates(this.tableData[1])) || this.hasDifferentNumbers()){
+      return false
+    }
+    else return true
+  }
+
+  hasDifferentNumbers():boolean{
+    for(let i = 0; i < this.tableData[0].length; i++){
+      if(!this.tableData[1].includes(this.tableData[0][i])){
+        return true
+      }
+    }
+    return false
   }
 
   hasDuplicates(arr:number[]){
@@ -107,5 +117,70 @@ export class VariableBoxComponent {
     this.tableData[0].splice(columnIndex,1);
   }
 
-  protected readonly onblur = onblur;
+  usedNumbers:number[] = [];
+
+
+  convertMatrixToCycles(){
+    if(!this.checked){
+      const length = this.tableData[0].length;
+      let j = 0;
+      let cycles:string [] = [];
+      while(j < length){
+        cycles.push(this.addCycle(j))
+        //find the next number that is not inside a cycle
+        while(this.usedNumbers.find(x => x == this.tableData[0][j])){
+          j++;
+          console.log("sugoma " + j)
+        }
+      }
+
+      let out = '';
+      for(let i = 0; i < cycles.length; i++){
+        out += cycles[i];
+      }
+      console.log(out);
+
+    }
+  }
+
+  //TODO: make this shit work for multiple cycles
+
+  addCycle(j : number){
+    let cycleString:string =``
+
+    // find when the first cycle starts
+    while(j<this.tableData.length){
+      console.log("ligma" + j)
+      if(this.tableData[0][j] !== this.tableData[1][j]){
+        cycleString += this.tableData[0][j]
+        cycleString += ','
+        cycleString += this.tableData[1][j]
+        this.usedNumbers.push(this.tableData[0][j])
+        this.usedNumbers.push(this.tableData[1][j])
+        break;
+      }
+      else{
+        this.usedNumbers.push(this.tableData[0][j])
+        j++;
+      }
+    }
+
+    //add values to the cycle till the first repetition, indicating the cycle to end
+    while(true){
+      if(this.usedNumbers.length == 0){
+        return '()'
+      }
+      let relevantIndex = this.tableData[0].findIndex(x => x == (this.usedNumbers)[this.usedNumbers.length - 1]);
+      //value redirects to already used number => we abort
+      if(this.usedNumbers.find(x => x == this.tableData[1][relevantIndex])){
+        return '('+cycleString+')'
+      }
+      // we haven't seen the number in the cycle yet => add it to the cycle
+      else {
+        cycleString += ','
+        cycleString += this.tableData[1][relevantIndex]
+        this.usedNumbers.push(this.tableData[1][relevantIndex])
+      }
+    }
+  }
 }
