@@ -27,11 +27,12 @@ import {min} from 'rxjs';
 })
 export class VariableBoxComponent {
   name: any;
-  value: any;
-  checked: any = true;
+  value: any = '(1,2,3)(7 ,4)';
+  checked: any = false;
   valid : boolean = true;
 
-  columns = [0,1 ];  // Starts with 1 column
+  columns = [0,1];  // Starts with 1 column
+
   tableData: number [][] = [
     [1, 2],  // First row
     [1, 2]   // Second row
@@ -99,7 +100,7 @@ export class VariableBoxComponent {
     else return true
   }
 
-  hasDifferentNumbers():boolean{
+  private hasDifferentNumbers():boolean{
     for(let i = 0; i < this.tableData[0].length; i++){
       if(!this.tableData[1].includes(this.tableData[0][i])){
         return true
@@ -108,49 +109,118 @@ export class VariableBoxComponent {
     return false
   }
 
-  hasDuplicates(arr:number[]){
+  private hasDuplicates(arr:number[]){
     return new Set(arr).size !== arr.length;
   }
 
-  removeColumn(columnIndex:number){
+  private removeColumn(columnIndex:number){
     this.tableData[1].splice(columnIndex,1);
     this.tableData[0].splice(columnIndex,1);
   }
 
+  //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
   usedNumbers:number[] = [];
 
-
-  convertMatrixToCycles(){
+  switchMatrixAndCycles(){
+    this.usedNumbers = []
+    //Do stuff, when
     if(!this.checked){
-      const length = this.tableData[0].length;
-      let j = 0;
-      let cycles:string [] = [];
-      while(j < length){
-        cycles.push(this.addCycle(j))
-        //find the next number that is not inside a cycle
-        while(this.usedNumbers.find(x => x == this.tableData[0][j])){
-          j++;
-          console.log("sugoma " + j)
-        }
-      }
-
-      let out = '';
-      for(let i = 0; i < cycles.length; i++){
-        out += cycles[i];
-      }
-      console.log(out);
-
+      this.matrixToCycles()
     }
+    if(this.checked){
+      this.cyclesToMatrix()
+    }
+  }
+
+  private cyclesToMatrix() {
+    if(this.valueIsCorrect()){
+      const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+
+      //if groups are empty then set to default
+      if(!groups){
+        this.tableData = [
+          [1, 2],  // First row
+          [1,2]   // Second row
+        ];
+      }
+
+      //TODO: not entirly correct: need the ability to automaticaly calculate cycles into matrix if numbers repeat in value
+      //TODO: make it so you only can switch between the modes when the data is correct, or at least resset to default values if the data isnt correct
+      //clear all preexisting data
+      this.tableData[0] = []
+      this.tableData[1] = []
+      for (const group of groups) {
+        //extract new data
+        const numbers = group.replace(/[()]/g, "").split(",").map(Number);
+        //add new data at the end
+        this.tableData[0].push(...numbers.slice().sort((a:number,b:number) => a -b ));
+
+        const currentTableLength = this.tableData[1].length
+        for (let number of numbers){
+          let index = this.tableData[0].findIndex((v:number) => v == number);
+          console.log(index + " " +this.tableData[0][index]+" " + number);
+          if(index +1 == numbers.length + currentTableLength){
+            console.log("ligma")
+            this.tableData[1].push(numbers[0]);
+          }
+          else{
+            console.log("sucma")
+            this.tableData[1].push(numbers[index - currentTableLength+1])
+          }
+        }
+        console.log("table data" + this.tableData[1]);
+      }
+    }
+  }
+
+  valueIsCorrect(): boolean{
+    const pattern = /^\(\d+(?:\s*,\s*\d+)*\)(?:\s*\(\d+(?:\s*,\s*\d+)*\))*$/;
+    if (!pattern.test(this.value))return false;
+
+    const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+
+    if (!groups) return false;
+
+    for (const group of groups) {
+      const numbers = group.replace(/[()]/g, "").split(",").map(Number); // Extract numbers
+      if(numbers.length == 1) return false;
+      const uniqueNumbers = new Set(numbers); // Convert to Set to check uniqueness
+
+      if (uniqueNumbers.size !== numbers.length) {
+        return false; // Found duplicates inside a parenthesis
+      }
+    }
+
+    return true;
+  }
+
+
+  private matrixToCycles(){
+    const length = this.tableData[0].length;
+    let j = 0;
+    let cycles:string [] = [];
+    while(j < length){
+      cycles.push(this.addCycle(j))
+      //find the next number that is not inside a cycle
+      while(this.usedNumbers.find(x => x == this.tableData[0][j])){
+        j++;
+      }
+    }
+
+    let out = '';
+    for(let i = 0; i < cycles.length; i++){
+      out += cycles[i];
+    }
+    console.log(out);
+    this.value = out
   }
 
   //TODO: make this shit work for multiple cycles
 
-  addCycle(j : number){
+  private addCycle(j : number){
     let cycleString:string =``
-
     // find when the first cycle starts
-    while(j<this.tableData.length){
-      console.log("ligma" + j)
+    while(j<this.tableData[0].length){
       if(this.tableData[0][j] !== this.tableData[1][j]){
         cycleString += this.tableData[0][j]
         cycleString += ','
@@ -183,4 +253,6 @@ export class VariableBoxComponent {
       }
     }
   }
+
+
 }

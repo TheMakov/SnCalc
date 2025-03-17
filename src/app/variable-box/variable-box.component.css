@@ -40,6 +40,9 @@ hr.solid {
 
 .input{
   width: 24vw !important;
+  font-weight:normal;
+  font-family: Helvetica, sans-serif;
+  font-size: 1rem;
 }
 
 .matrix-variable{
