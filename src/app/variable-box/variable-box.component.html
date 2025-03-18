@@ -43,7 +43,7 @@
     <i class="pi pi-exclamation-circle" style="font-size: 1.5rem; color: #ff4d00"></i>
   </div>
   <div class = "button-row">
-    <p-toggle-button (click)="switchMatrixAndCycles()" class = "toggle helvetica" [(ngModel)]="checked" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
+    <p-toggle-button [disabled] = !(valueIsCorrect()&&matrixIsValid()) [(ngModel)]="checked" (onChange)="switchMatrixAndCycles()" class = "toggle helvetica" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
     <p-button class = "save-button helvetica" label="save" styleClass = "save-button" />
   </div>
 

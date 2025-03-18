@@ -4,7 +4,7 @@ import {InputText} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {ToggleButton} from 'primeng/togglebutton';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgClass, NgForOf, NgIf} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {min} from 'rxjs';
 
@@ -21,6 +21,7 @@ import {min} from 'rxjs';
     NgIf,
     TableModule,
     NgForOf,
+    NgClass,
   ],
   templateUrl: './variable-box.component.html',
   styleUrl: './variable-box.component.css'
@@ -123,29 +124,27 @@ export class VariableBoxComponent {
 
   switchMatrixAndCycles(){
     this.usedNumbers = []
-    //Do stuff, when
-    if(!this.checked){
-      this.matrixToCycles()
-    }
     if(this.checked){
       this.cyclesToMatrix()
+      //this.checked = !this.checked;
+    }
+    else if(!this.checked){
+      this.matrixToCycles()
+      //this.checked = !this.checked;
     }
   }
 
   private cyclesToMatrix() {
-    if(this.valueIsCorrect()){
-      const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+    const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
 
-      //if groups are empty then set to default
-      if(!groups){
-        this.tableData = [
-          [1,2],
-          [1,2]
-        ];
-      }
+    //if groups are empty then set to default
+    if(!groups){
+      this.tableData = [
+        [1,2],
+        [1,2]
+      ];
+    }
 
-      //TODO: not entirly correct: need the ability to automaticaly calculate cycles into matrix if numbers repeat in value
-      //TODO: make it so you only can switch between the modes when the data is correct, or at least resset to default values if the data isnt correct
       //clear all preexisting data
       this.tableData = [
         [],
@@ -192,11 +191,11 @@ export class VariableBoxComponent {
           this.tableData[0].splice(index, 1);
         }
       }
-    }
+
   }
 
   valueIsCorrect(): boolean{
-    const pattern = /^\(\d+(?:\s*,\s*\d+)*\)(?:\s*\(\d+(?:\s*,\s*\d+)*\))*$/;
+    const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
     if (!pattern.test(this.value))return false;
 
     const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
@@ -233,7 +232,6 @@ export class VariableBoxComponent {
     for(let i = 0; i < cycles.length; i++){
       out += cycles[i];
     }
-    console.log(out);
     this.value = out
   }
 
@@ -265,7 +263,9 @@ export class VariableBoxComponent {
       let relevantIndex = this.tableData[0].findIndex(x => x == (this.usedNumbers)[this.usedNumbers.length - 1]);
       //value redirects to already used number => we abort
       if(this.usedNumbers.find(x => x == this.tableData[1][relevantIndex])){
-        return '('+cycleString+')'
+        if(cycleString == ''){
+          return '';
+        }else return '('+cycleString+')'
       }
       // we haven't seen the number in the cycle yet => add it to the cycle
       else {
