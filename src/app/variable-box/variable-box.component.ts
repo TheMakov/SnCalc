@@ -27,7 +27,7 @@ import {min} from 'rxjs';
 })
 export class VariableBoxComponent {
   name: any;
-  value: any = '(1,2,3)(7 ,4)';
+  value: any = '(1,2,3)(7 ,4)(7 ,4)';
   checked: any = false;
   valid : boolean = true;
 
@@ -139,36 +139,58 @@ export class VariableBoxComponent {
       //if groups are empty then set to default
       if(!groups){
         this.tableData = [
-          [1, 2],  // First row
-          [1,2]   // Second row
+          [1,2],
+          [1,2]
         ];
       }
 
       //TODO: not entirly correct: need the ability to automaticaly calculate cycles into matrix if numbers repeat in value
       //TODO: make it so you only can switch between the modes when the data is correct, or at least resset to default values if the data isnt correct
       //clear all preexisting data
-      this.tableData[0] = []
-      this.tableData[1] = []
+      this.tableData = [
+        [],
+        []
+      ];
+      //add all used values to the first row
       for (const group of groups) {
         //extract new data
         const numbers = group.replace(/[()]/g, "").split(",").map(Number);
+        let numbersToAdd = [...numbers]
         //add new data at the end
-        this.tableData[0].push(...numbers.slice().sort((a:number,b:number) => a -b ));
-
-        const currentTableLength = this.tableData[1].length
-        for (let number of numbers){
-          let index = this.tableData[0].findIndex((v:number) => v == number);
-          console.log(index + " " +this.tableData[0][index]+" " + number);
-          if(index +1 == numbers.length + currentTableLength){
-            console.log("ligma")
-            this.tableData[1].push(numbers[0]);
-          }
-          else{
-            console.log("sucma")
-            this.tableData[1].push(numbers[index - currentTableLength+1])
+        for(let number of numbers){
+          if(this.tableData[0].includes(number)){
+            let index = numbersToAdd.findIndex((num: any)  => num === number);
+            numbersToAdd.splice(index, 1);
           }
         }
-        console.log("table data" + this.tableData[1]);
+        this.tableData[0].push(...numbersToAdd);
+        this.tableData[1].push(...numbersToAdd);
+      }
+
+      //FUCK TS OR ANGULAR AND HOW THEY HANDLE REFERENCES IT TOOK ME FOREVER TO CHECK IF THE VALUES ARE SORTED AS THEY SHOULD
+      this.tableData.forEach(row => row.sort((a, b) => a - b));
+
+      for(let i = groups.length-1; i>=0; i--){
+       const numbers = groups[i].replace(/[()]/g, "").split(",").map(Number);
+       let arrayCopy = [...this.tableData[1]]
+       for(let j = 0 ; j < numbers.length; j++){
+         let index: number = arrayCopy.findIndex(number => number === numbers[j]);
+         if(j === numbers.length-1){
+           this.tableData[1][index] = numbers[0];
+         }
+         else {
+           this.tableData[1][index] = numbers[j+1];
+         }
+       }
+     }
+      //cleanup of unnecessary data
+      let tableCopy = [...this.tableData[0]];
+      for(let number of tableCopy){
+        let index = this.tableData[0].findIndex(num => num == number)
+        if(this.tableData[0][index] === this.tableData[1][index]){
+          this.tableData[1].splice(index, 1);
+          this.tableData[0].splice(index, 1);
+        }
       }
     }
   }
