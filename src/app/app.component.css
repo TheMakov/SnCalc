@@ -43,10 +43,11 @@
 }
 
 .plus-button {
-  margin-top: 2vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  margin-top: 1em;
 }
 
 input {

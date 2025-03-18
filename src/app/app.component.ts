@@ -34,4 +34,5 @@ export class AppComponent {
   toggleSidebar() {
     this.sidebar = !this.sidebar;
   }
+
 }

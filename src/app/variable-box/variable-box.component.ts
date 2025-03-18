@@ -21,7 +21,6 @@ import {min} from 'rxjs';
     NgIf,
     TableModule,
     NgForOf,
-    NgClass,
   ],
   templateUrl: './variable-box.component.html',
   styleUrl: './variable-box.component.css'
