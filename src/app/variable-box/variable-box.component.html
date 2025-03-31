@@ -1,5 +1,8 @@
-<div class = " helvetica main-container">
-  <p class = "helvetica title">Variable</p>
+<div class = " helvetica main-container" >
+  <div class="header">
+    <p class = "helvetica title">Variable</p>
+    <p-button icon="pi pi-times" [rounded]="true"  [text]="true" (onClick)="CloseVariable()"/>
+  </div>
   <p-floatlabel variant="on">
     <input pSize="large" class="input" pInputText id="over_label_name" [(ngModel)]="name" autocomplete="off" />
     <label class="helvetica" for="over_label_name">Variable name</label>

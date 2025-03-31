@@ -1,12 +1,12 @@
-import {Component} from '@angular/core';
+import {Component, input, Input} from '@angular/core';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {ToggleButton} from 'primeng/togglebutton';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import { NgForOf, NgIf} from '@angular/common';
 import {TableModule} from 'primeng/table';
-import {min} from 'rxjs';
+import {PermutationsService} from '../permutations.service';
 
 
 @Component({
@@ -26,17 +26,27 @@ import {min} from 'rxjs';
   styleUrl: './variable-box.component.css'
 })
 export class VariableBoxComponent {
-  name: any;
-  value: any = '(1,2,3)(7 ,4)(7 ,4)';
+
+  constructor(private permutationsService: PermutationsService) {
+  }
+  //default value, so that I know that something went wrong
+
+  @Input({ required: true }) variableId!: number;
+  @Input({ required: true }) name!: string;
+  @Input({ required: true }) value!: string;
+  @Input({ required: true }) tableData!: number [][];
+
+
   checked: any = false;
   valid : boolean = true;
+  columns:number[] = [];
 
-  columns = [0,1];  // Starts with 1 column
-
-  tableData: number [][] = [
-    [1, 2],  // First row
-    [1, 2]   // Second row
-  ];
+  ngAfterViewInit(){
+    for(let i in this.tableData[0]){
+      this.columns.push(0);
+    }
+    this.columns.push(0);
+  }
 
   //I don't know if I want to let this in see how it feels during further development, but works as intended
   onFinishedEdit(rowIndex: number, colIndex: number){
@@ -69,6 +79,10 @@ export class VariableBoxComponent {
 
   OnFocus(){
     this.checkMatrixLength()
+  }
+
+  CloseVariable(){
+
   }
 
   OnKeyEvent(event:KeyboardEvent, rowIndex:number, colIndex: number ){
@@ -134,69 +148,74 @@ export class VariableBoxComponent {
   }
 
   private cyclesToMatrix() {
-    const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
-
-    //if groups are empty then set to default
-    if(!groups){
+    let regExp = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+    let groups:string[] = []
+    if(regExp){
+      groups = Array.from(regExp);
+    }
+    else {
       this.tableData = [
-        [1,2],
-        [1,2]
+        [1, 2],
+        [1, 2]
       ];
     }
 
-      //clear all preexisting data
-      this.tableData = [
-        [],
-        []
-      ];
-      //add all used values to the first row
-      for (const group of groups) {
-        //extract new data
-        const numbers = group.replace(/[()]/g, "").split(",").map(Number);
-        let numbersToAdd = [...numbers]
-        //add new data at the end
-        for(let number of numbers){
-          if(this.tableData[0].includes(number)){
-            let index = numbersToAdd.findIndex((num: any)  => num === number);
-            numbersToAdd.splice(index, 1);
-          }
+    //if groups are empty then set to default
+
+
+    //clear all preexisting data
+    this.tableData = [
+      [],
+      []
+    ];
+    //add all used values to the first row
+    for (const group of groups) {
+      //extract new data
+      const numbers = group.replace(/[()]/g, "").split(",").map(Number);
+      let numbersToAdd = [...numbers]
+      //add new data at the end
+      for(let number of numbers){
+        if(this.tableData[0].includes(number)){
+          let index = numbersToAdd.findIndex((num: any)  => num === number);
+          numbersToAdd.splice(index, 1);
         }
-        this.tableData[0].push(...numbersToAdd);
-        this.tableData[1].push(...numbersToAdd);
       }
+      this.tableData[0].push(...numbersToAdd);
+      this.tableData[1].push(...numbersToAdd);
+    }
 
-      //FUCK TS OR ANGULAR AND HOW THEY HANDLE REFERENCES IT TOOK ME FOREVER TO CHECK IF THE VALUES ARE SORTED AS THEY SHOULD
-      this.tableData.forEach(row => row.sort((a, b) => a - b));
+    //FUCK TS OR ANGULAR AND HOW THEY HANDLE REFERENCES IT TOOK ME FOREVER TO CHECK IF THE VALUES ARE SORTED AS THEY SHOULD
+    this.tableData.forEach(row => row.sort((a, b) => a - b));
 
-      for(let i = groups.length-1; i>=0; i--){
-       const numbers = groups[i].replace(/[()]/g, "").split(",").map(Number);
-       let arrayCopy = [...this.tableData[1]]
-       for(let j = 0 ; j < numbers.length; j++){
-         let index: number = arrayCopy.findIndex(number => number === numbers[j]);
-         if(j === numbers.length-1){
-           this.tableData[1][index] = numbers[0];
-         }
-         else {
-           this.tableData[1][index] = numbers[j+1];
-         }
+    for(let i = groups.length-1; i>=0; i--){
+     const numbers = groups[i].replace(/[()]/g, "").split(",").map(Number);
+     let arrayCopy = [...this.tableData[1]]
+     for(let j = 0 ; j < numbers.length; j++){
+       let index: number = arrayCopy.findIndex(number => number === numbers[j]);
+       if(j === numbers.length-1){
+         this.tableData[1][index] = numbers[0];
+       }
+       else {
+         this.tableData[1][index] = numbers[j+1];
        }
      }
-      //cleanup of unnecessary data
-      let tableCopy = [...this.tableData[0]];
-      for(let number of tableCopy){
-        let index = this.tableData[0].findIndex(num => num == number)
-        if(this.tableData[0][index] === this.tableData[1][index]){
-          this.tableData[1].splice(index, 1);
-          this.tableData[0].splice(index, 1);
-        }
+    }
+    //cleanup of unnecessary data
+    let tableCopy = [...this.tableData[0]];
+    for(let number of tableCopy){
+      let index = this.tableData[0].findIndex(num => num == number)
+      if(this.tableData[0][index] === this.tableData[1][index]){
+        this.tableData[1].splice(index, 1);
+        this.tableData[0].splice(index, 1);
       }
-      //reset the number of columns and calculate the new correct amount
-      this.columns = []
-      let i = 0
-      for(let number of this.tableData[0]){
-        this.columns.push(i);
-        i++;
-      }
+    }
+    //reset the number of columns and calculate the new correct amount
+    this.columns = []
+    let i = 0
+    for(let number of this.tableData[0]){
+      this.columns.push(i);
+      i++;
+    }
 
   }
 
@@ -243,8 +262,6 @@ export class VariableBoxComponent {
     }
     this.value = out
   }
-
-  //TODO: make this shit work for multiple cycles
 
   private addCycle(j : number){
     let cycleString:string =``

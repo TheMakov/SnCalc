@@ -88,4 +88,12 @@ hr.solid {
   justify-content: space-around;
 }
 
+.header{
+  display: flex;
+  flex-direction: row;
+  width: 24vw;
+  align-items: center;
+  justify-content: space-between;
+}
+
 

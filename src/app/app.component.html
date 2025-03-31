@@ -1,6 +1,11 @@
 <main class="main">
   <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar">
-    <variable-box></variable-box>
+    <variable-box *ngFor="let id of variablesIdList"
+                  [variableId]="id"
+                  [name]="variableNameList[id]"
+                  [value]="variableValueList[id]"
+                  [tableData] ="variableTableList[id]">
+    </variable-box>
     <div class ="plus-button">
       <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true"></p-button>
     </div>
