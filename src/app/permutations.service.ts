@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class PermutationsService {
-  public variablesIdList: number[] = [1];
+  public variablesIdList: number[] = [0];
   public variablesNameList: string[] = ["test"];
   public variablesValueList: string[] = ['(1,2,3)(7 ,4)(7 ,4)'];
   public variablesTableList: number[][][] = [[
@@ -28,5 +28,9 @@ export class PermutationsService {
   }
   getVariablesTableList():Observable<number[][][]> {
     return of(this.variablesTableList);
+  }
+
+  public removeVariable(id: number) {
+
   }
 }

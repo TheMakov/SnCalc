@@ -27,15 +27,21 @@ import {PermutationsService} from '../permutations.service';
 })
 export class VariableBoxComponent {
 
-  constructor(private permutationsService: PermutationsService) {
+  constructor(private service: PermutationsService) {
   }
   //default value, so that I know that something went wrong
 
   @Input({ required: true }) variableId!: number;
-  @Input({ required: true }) name!: string;
-  @Input({ required: true }) value!: string;
-  @Input({ required: true }) tableData!: number [][];
+  //@Input({ required: true }) name!: string;
+  //@Input({ required: true }) value!: string;
+  //@Input({ required: true }) tableData!: number [][];
 
+  name: string = ""
+  value: string = "(1,2,3)(7 ,4)(7 ,4)"
+  tableData: number[][] = [
+    [1,2],
+    [1,2]
+  ];
 
   checked: any = false;
   valid : boolean = true;
@@ -82,7 +88,7 @@ export class VariableBoxComponent {
   }
 
   CloseVariable(){
-
+    this.service.removeVariable(this.variableId)
   }
 
   OnKeyEvent(event:KeyboardEvent, rowIndex:number, colIndex: number ){
