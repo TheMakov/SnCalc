@@ -7,7 +7,7 @@ import {Observable, of} from 'rxjs';
 export class PermutationsService {
   public variablesIdList: number[] = [0];
   public variablesNameList: string[] = ["test"];
-  public variablesValueList: string[] = ['(1,2,3)(7 ,4)(7 ,4)'];
+  public variablesValueList: string[] = ['(1,3,2)(7 ,4)(7 ,4)'];
   public variablesTableList: number[][][] = [[
     [1, 2],
     [1, 2]

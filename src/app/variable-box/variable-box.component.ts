@@ -32,16 +32,9 @@ export class VariableBoxComponent {
   //default value, so that I know that something went wrong
 
   @Input({ required: true }) variableId!: number;
-  //@Input({ required: true }) name!: string;
-  //@Input({ required: true }) value!: string;
-  //@Input({ required: true }) tableData!: number [][];
-
-  name: string = ""
-  value: string = "(1,2,3)(7 ,4)(7 ,4)"
-  tableData: number[][] = [
-    [1,2],
-    [1,2]
-  ];
+  @Input({ required: true }) name!: string;
+  @Input({ required: true }) value!: string;
+  @Input({ required: true }) tableData!: number [][];
 
   checked: any = false;
   valid : boolean = true;
