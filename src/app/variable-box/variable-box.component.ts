@@ -190,6 +190,13 @@ export class VariableBoxComponent {
           this.tableData[0].splice(index, 1);
         }
       }
+      //reset the number of columns and calculate the new correct amount
+      this.columns = []
+      let i = 0
+      for(let number of this.tableData[0]){
+        this.columns.push(i);
+        i++;
+      }
 
   }
 
@@ -216,13 +223,16 @@ export class VariableBoxComponent {
 
 
   private matrixToCycles(){
+    //I dont like doing this, but when a value is removed, the empty space might still be read as null in the array => remove all nulls from the array
+    this.tableData[0] = this.tableData[0].filter(item => item !== null);
+    this.tableData[1] = this.tableData[1].filter(item => item !== null);
     const length = this.tableData[0].length;
     let j = 0;
     let cycles:string [] = [];
     while(j < length){
       cycles.push(this.addCycle(j))
       //find the next number that is not inside a cycle
-      while(this.usedNumbers.find(x => x == this.tableData[0][j])){
+      while(this.usedNumbers.find(x => x == this.tableData[0][j]) ){
         j++;
       }
     }

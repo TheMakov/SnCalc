@@ -38,4 +38,5 @@ html, body {
   color: #3e3c3c !important;
   border: .2rem solid #424242 !important;
   font-weight: bold !important;
+  border-radius: .3rem !important;
 }

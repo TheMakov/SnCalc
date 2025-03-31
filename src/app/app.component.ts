@@ -30,6 +30,7 @@ export class AppComponent {
   title = 'sn-calc';
   value: any;
   sidebar = true;
+  variables: number[] = [0];
 
   toggleSidebar() {
     this.sidebar = !this.sidebar;
