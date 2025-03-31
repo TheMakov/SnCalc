@@ -57,5 +57,9 @@ export class AppComponent {
     this.sidebar = !this.sidebar;
   }
 
+  addVariable() {
+    this.permutationsService.addVariable()
+  }
+
 
 }

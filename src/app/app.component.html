@@ -6,12 +6,8 @@
                   [value]="variableValueList[id]"
                   [tableData] ="variableTableList[id]">
     </variable-box>
-
-    <!--<variable-box *ngFor="let id of variablesIdList"
-                  [variableId]="id">
-    </variable-box>-->
     <div class ="plus-button">
-      <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true"></p-button>
+      <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true" (onClick)="addVariable()"></p-button>
     </div>
   </div>
   <div class = "container">

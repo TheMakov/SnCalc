@@ -30,7 +30,22 @@ export class PermutationsService {
     return of(this.variablesTableList);
   }
 
+  //TODO: still some issues correctly adding and removing variables, but kinda works
   public removeVariable(id: number) {
+    this.variablesIdList.splice(id, 1);
+    this.variablesNameList.splice(id, 1);
+    this.variablesValueList.splice(id, 1);
+    this.variablesTableList.splice(id, 1);
+  }
 
+
+  public addVariable() {
+    this.variablesIdList.push(this.variablesIdList.length - 1);
+    this.variablesNameList.push("variable "+ String(this.variablesIdList.length - 1));
+    this.variablesValueList.push("(1,2)");
+    this.variablesTableList.push([
+      [1,2],
+      [2,1]
+    ])
   }
 }
