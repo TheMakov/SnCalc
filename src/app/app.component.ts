@@ -62,4 +62,5 @@ export class AppComponent {
   }
 
 
+  protected readonly Array = Array;
 }

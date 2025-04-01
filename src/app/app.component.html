@@ -1,6 +1,6 @@
 <main class="main">
   <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar">
-    <variable-box *ngFor="let id of variablesIdList"
+    <variable-box *ngFor="let _ of Array(variablesIdList.length); let id = index"
                   [variableId]="id"
                   [name]="variableNameList[id]"
                   [value]="variableValueList[id]"

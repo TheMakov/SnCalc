@@ -36,16 +36,28 @@ export class PermutationsService {
     this.variablesNameList.splice(id, 1);
     this.variablesValueList.splice(id, 1);
     this.variablesTableList.splice(id, 1);
+    console.log(id);
+    console.log(this.variablesIdList);
+    console.log(this.variablesNameList);
+    console.log(this.variablesValueList);
+    console.log(this.variablesTableList);
+
   }
 
 
   public addVariable() {
-    this.variablesIdList.push(this.variablesIdList.length - 1);
-    this.variablesNameList.push("variable "+ String(this.variablesIdList.length - 1));
-    this.variablesValueList.push("(1,2)");
-    this.variablesTableList.push([
-      [1,2],
-      [2,1]
-    ])
+    for (let i = 1; i <= this.variablesIdList.length; i++) {
+      if(this.variablesIdList.every((num) => num !== i)) {
+        this.variablesIdList.push(i)
+        this.variablesNameList.push( "variable "+ String(i));
+        this.variablesValueList.push( "(1,2)");
+        this.variablesTableList.push([
+          [1,2],
+          [2,1]
+        ])
+        break;
+      }
+    }
+
   }
 }
