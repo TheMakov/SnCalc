@@ -4,11 +4,11 @@
     <p-button icon="pi pi-times" [rounded]="true"  [text]="true" (onClick)="CloseVariable()"/>
   </div>
   <p-floatlabel variant="on">
-    <input pSize="large" class="input" pInputText id="over_label_name" [(ngModel)]="name" autocomplete="off" />
+    <input pSize="large" class="input" pInputText id="over_label_name" [(ngModel)]="name" (input) = "onInputValue()" autocomplete="off" />
     <label class="helvetica" for="over_label_name">Variable name</label>
   </p-floatlabel>
   <p-floatlabel *ngIf="!checked" class = "variable" variant="on">
-    <input class="input" pSize="large"  pInputText id="over_label_value" [(ngModel)]="value" autocomplete="off" />
+    <input class="input" pSize="large"  pInputText id="over_label_value" [(ngModel)]="value" (input) = "onInputValue()" autocomplete="off" />
     <label class="helvetica" for="over_label_value">Value</label>
   </p-floatlabel>
 
@@ -28,7 +28,7 @@
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <input (focusin)="OnFocus()" (keydown)="OnKeyEvent($event, rowIndex, colIndex)" class="small-input" pInputText type="number" [(ngModel)]="tableData[rowIndex][colIndex]"
-                       (input)="onInput()" (blur)="onFinishedEdit(rowIndex, colIndex)" />
+                       (input)="onInputTable()" (blur)="onFinishedEdit(rowIndex, colIndex)" />
               </ng-template>
               <ng-template pTemplate="output">
                 {{ tableData[rowIndex][colIndex] }}
@@ -41,12 +41,12 @@
 
   </div>
 
-  <div *ngIf=" (!matrixIsValid() && checked)||(!valueIsCorrect()&& !checked)" class ="warning-box">
+  <div *ngIf=" (!matrixIsValid() && checked)||(!valueIsValid()&& !checked)" class ="warning-box">
     <p class ="warning" >this Variable is defined incorrectly, <br> variable wont be saved </p>
     <i class="pi pi-exclamation-circle" style="font-size: 1.5rem; color: #ff4d00"></i>
   </div>
   <div class = "button-row">
-    <p-toggle-button [disabled] = !(valueIsCorrect()&&matrixIsValid()) [(ngModel)]="checked" (onChange)="switchMatrixAndCycles()" class = "toggle helvetica" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
+    <p-toggle-button [disabled] = !(valueIsValid()&&matrixIsValid()) [(ngModel)]="checked" (onChange)="switchMatrixAndCycles()" class = "toggle helvetica" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
     <p-button class = "save-button helvetica" label="save" styleClass = "save-button" />
   </div>
 

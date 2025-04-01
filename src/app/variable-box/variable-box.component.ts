@@ -1,7 +1,7 @@
 import {Component, input, Input} from '@angular/core';
 import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Button} from 'primeng/button';
 import {ToggleButton} from 'primeng/togglebutton';
 import { NgForOf, NgIf} from '@angular/common';
@@ -32,15 +32,31 @@ export class VariableBoxComponent {
   //default value, so that I know that something went wrong
 
   @Input({ required: true }) variableId!: number;
-  @Input({ required: true }) name!: string;
-  @Input({ required: true }) value!: string;
-  @Input({ required: true }) tableData!: number [][];
+  name!: string;
+  value!: string;
+  tableData!: number [][];
 
   checked: any = false;
   valid : boolean = true;
   columns:number[] = [];
 
-  ngAfterViewInit(){
+
+  private index!: number;
+
+  ngOnInit() {
+    this.service.getVariablesId().subscribe(id =>{
+      this.index = id.findIndex(id => id === this.variableId);
+    })
+    this.service.getVariablesName().subscribe(name => {
+      this.name = name[this.index]
+    })
+    this.service.getVariablesValueList().subscribe(value => {
+      this.value = value[this.index]
+    })
+    this.service.getVariablesTableList().subscribe(table => {
+      this.tableData = table[this.index]
+    })
+
     for(let i in this.tableData[0]){
       this.columns.push(0);
     }
@@ -70,11 +86,18 @@ export class VariableBoxComponent {
     }
   }
 
-  onInput(){
+  onInputTable(){
     this.checkMatrixLength()
+    if(this.matrixIsValid()){
+      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData)
+    }
   }
 
-
+  onInputValue(){
+    if(this.valueIsValid()){
+      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData)
+    }
+  }
 
   OnFocus(){
     this.checkMatrixLength()
@@ -218,7 +241,7 @@ export class VariableBoxComponent {
 
   }
 
-  valueIsCorrect(): boolean{
+  valueIsValid(): boolean{
     const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
     if (!pattern.test(this.value))return false;
 

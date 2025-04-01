@@ -5,10 +5,10 @@ import {Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class PermutationsService {
-  public variablesIdList: number[] = [0];
-  public variablesNameList: string[] = ["test"];
-  public variablesValueList: string[] = ['(1,3,2)(7 ,4)(7 ,4)'];
-  public variablesTableList: number[][][] = [[
+  private variablesIdList: number[] = [0];
+  private variablesNameList: string[] = ["test"];
+  private variablesValueList: string[] = ['(1,3,2)(7 ,4)(7 ,4)'];
+  private variablesTableList: number[][][] = [[
     [1, 2],
     [1, 2]
   ]]
@@ -44,7 +44,8 @@ export class PermutationsService {
 
   }
 
-
+  //all Id's should be unique, one should be able to look up the variable using said id
+  //the Id array doesnt need to be sorted as the order of the id indicates the order in the sidebar
   public addVariable() {
     for (let i = 1; i <= this.variablesIdList.length; i++) {
       if(this.variablesIdList.every((num) => num !== i)) {
@@ -58,6 +59,13 @@ export class PermutationsService {
         break;
       }
     }
+  }
 
+  public updateVariable(id: number, name:string, value: string, tableList: number[][]) {
+    console.log("update");
+    let index = this.variablesIdList.findIndex((i) => i === id);
+    this.variablesNameList[index] = name;
+    this.variablesValueList[index] = value;
+    this.variablesTableList[index] = tableList;
   }
 }
