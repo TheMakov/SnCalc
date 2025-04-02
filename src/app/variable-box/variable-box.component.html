@@ -28,7 +28,7 @@
             <p-cellEditor>
               <ng-template pTemplate="input">
                 <input (focusin)="OnFocus()" (keydown)="OnKeyEvent($event, rowIndex, colIndex)" class="small-input" pInputText type="number" [(ngModel)]="tableData[rowIndex][colIndex]"
-                       (input)="onInputTable()" (blur)="onFinishedEdit(rowIndex, colIndex)" />
+                       (input)="onInputTable()" (blur)="onFinishedEdit(colIndex)" />
               </ng-template>
               <ng-template pTemplate="output">
                 {{ tableData[rowIndex][colIndex] }}

@@ -37,7 +37,7 @@ export class VariableBoxComponent {
   tableData!: number [][];
 
   checked: any = false;
-  valid : boolean = true;
+  valid! : boolean;
   columns:number[] = [];
 
 
@@ -56,46 +56,30 @@ export class VariableBoxComponent {
     this.service.getVariablesTableList().subscribe(table => {
       this.tableData = table[this.index]
     })
-
-    for(let i in this.tableData[0]){
-      this.columns.push(0);
-    }
-    this.columns.push(0);
+    this.service.getVariablesColumnList().subscribe(column => {
+      this.columns = column[this.index]
+    })
+    this.valid = this.service.matrixIsValid(this.variableId)
   }
 
   //I don't know if I want to let this in see how it feels during further development, but works as intended
-  onFinishedEdit(rowIndex: number, colIndex: number){
-    this.valid = this.matrixIsValid();
+  onFinishedEdit( colIndex: number){
+    this.valid = this.service.matrixIsValid(this.variableId);
     if((this.tableData[0][colIndex] == null||this.tableData[0][colIndex] == undefined) && (this.tableData[1][colIndex] == null || this.tableData[1][colIndex] == undefined) &&  colIndex !== this.columns.length-1){
-      this.removeColumn(colIndex);
-      this.columns.pop()
-    }
-
-  }
-
-  checkMatrixLength(){
-    //save columns length before modifying it
-    const columnsCount = this.columns.length
-
-
-    if((this.tableData[0][columnsCount-1] !== null && this.tableData[0][columnsCount-1] !== undefined) || (this.tableData[1][columnsCount-1] !== null && this.tableData[1][columnsCount-1] !== undefined)){
-      this.columns.push(this.columns.length);
-    }
-    else if((this.tableData[0][columnsCount-2] == null ||this.tableData[0][columnsCount-2] == undefined) && (this.tableData[1][columnsCount-2] == null ||this.tableData[1][columnsCount-2] == undefined)){
-      this.columns.pop();
+      this.service.removeEmptyColumn(this.variableId, colIndex)
     }
   }
 
   onInputTable(){
     this.checkMatrixLength()
-    if(this.matrixIsValid()){
-      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData)
+    if(this.service.matrixIsValid(this.variableId)){
+      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData, this.columns);
     }
   }
 
   onInputValue(){
     if(this.valueIsValid()){
-      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData)
+      this.service.updateVariable(this.variableId, this.name, this.value, this.tableData, this.columns)
     }
   }
 
@@ -128,39 +112,11 @@ export class VariableBoxComponent {
     }
   }
 
-
-  matrixIsValid(): boolean {
-    if((this.hasDuplicates(this.tableData[0]) || this.hasDuplicates(this.tableData[1])) || this.hasDifferentNumbers()){
-      return false
-    }
-    else return true
-  }
-
-  private hasDifferentNumbers():boolean{
-    for(let i = 0; i < this.tableData[0].length; i++){
-      if(!this.tableData[1].includes(this.tableData[0][i])){
-        return true
-      }
-    }
-    return false
-  }
-
-  private hasDuplicates(arr:number[]){
-    return new Set(arr).size !== arr.length;
-  }
-
-  private removeColumn(columnIndex:number){
-    this.tableData[1].splice(columnIndex,1);
-    this.tableData[0].splice(columnIndex,1);
-  }
-
-  //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
-  usedNumbers:number[] = [];
-
-  switchMatrixAndCycles(){
+  public switchMatrixAndCycles(){
     this.usedNumbers = []
     if(this.checked){
-      this.cyclesToMatrix()
+      this.service.cyclesToMatrix(this.variableId)
+      console.log(this.variableId, this.name, this.value, this.tableData, this.columns)
       //this.checked = !this.checked;
     }
     else if(!this.checked){
@@ -169,77 +125,27 @@ export class VariableBoxComponent {
     }
   }
 
-  private cyclesToMatrix() {
-    let regExp = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
-    let groups:string[] = []
-    if(regExp){
-      groups = Array.from(regExp);
-    }
-    else {
-      this.tableData = [
-        [1, 2],
-        [1, 2]
-      ];
-    }
-
-    //if groups are empty then set to default
-
-
-    //clear all preexisting data
-    this.tableData = [
-      [],
-      []
-    ];
-    //add all used values to the first row
-    for (const group of groups) {
-      //extract new data
-      const numbers = group.replace(/[()]/g, "").split(",").map(Number);
-      let numbersToAdd = [...numbers]
-      //add new data at the end
-      for(let number of numbers){
-        if(this.tableData[0].includes(number)){
-          let index = numbersToAdd.findIndex((num: any)  => num === number);
-          numbersToAdd.splice(index, 1);
-        }
-      }
-      this.tableData[0].push(...numbersToAdd);
-      this.tableData[1].push(...numbersToAdd);
-    }
-
-    //FUCK TS OR ANGULAR AND HOW THEY HANDLE REFERENCES IT TOOK ME FOREVER TO CHECK IF THE VALUES ARE SORTED AS THEY SHOULD
-    this.tableData.forEach(row => row.sort((a, b) => a - b));
-
-    for(let i = groups.length-1; i>=0; i--){
-     const numbers = groups[i].replace(/[()]/g, "").split(",").map(Number);
-     let arrayCopy = [...this.tableData[1]]
-     for(let j = 0 ; j < numbers.length; j++){
-       let index: number = arrayCopy.findIndex(number => number === numbers[j]);
-       if(j === numbers.length-1){
-         this.tableData[1][index] = numbers[0];
-       }
-       else {
-         this.tableData[1][index] = numbers[j+1];
-       }
-     }
-    }
-    //cleanup of unnecessary data
-    let tableCopy = [...this.tableData[0]];
-    for(let number of tableCopy){
-      let index = this.tableData[0].findIndex(num => num == number)
-      if(this.tableData[0][index] === this.tableData[1][index]){
-        this.tableData[1].splice(index, 1);
-        this.tableData[0].splice(index, 1);
-      }
-    }
-    //reset the number of columns and calculate the new correct amount
-    this.columns = []
-    let i = 0
-    for(let number of this.tableData[0]){
-      this.columns.push(i);
-      i++;
-    }
-
+  public matrixIsValid():boolean{
+    return this.service.matrixIsValid(this.variableId)
   }
+
+  private checkMatrixLength(){
+    //save columns length before modifying it
+    const columnsCount = this.columns.length
+
+    if((this.tableData[0][columnsCount-1] !== null && this.tableData[0][columnsCount-1] !== undefined) || (this.tableData[1][columnsCount-1] !== null && this.tableData[1][columnsCount-1] !== undefined)){
+      this.columns.push(this.columns.length);
+    }
+    else if((this.tableData[0][columnsCount-2] == null ||this.tableData[0][columnsCount-2] == undefined) && (this.tableData[1][columnsCount-2] == null ||this.tableData[1][columnsCount-2] == undefined)){
+      this.columns.pop();
+    }
+  }
+
+
+  //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
+  usedNumbers:number[] = [];
+
+
 
   valueIsValid(): boolean{
     const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
