@@ -23,23 +23,23 @@ export class PermutationsService {
 
   }
 
-  getVariablesId(): Observable<number[]> {
+  getVariablesIdList(): number[] {
     // Simulating data fetch
-    return of(this.variablesIdList);
+    return this.variablesIdList;
   }
-  getVariablesName(): Observable<string[]> {
+  getVariablesNameList(): string[] {
     // Simulating data fetch
-    return of(this.variablesNameList);
+    return this.variablesNameList;
   }
-  getVariablesValueList(): Observable<string[]> {
+  getVariablesValueList(): string[]{
     // Simulating data fetch
-    return of(this.variablesValueList);
+    return this.variablesValueList;
   }
-  getVariablesTableList():Observable<number[][][]> {
-    return of(this.variablesTableList);
+  getVariablesTableList():number[][][] {
+    return this.variablesTableList;
   }
-  getVariablesColumnList():Observable<number[][]> {
-    return of(this.variablesColumnList);
+  getVariablesColumnList():number[][]{
+    return this.variablesColumnList
   }
 
   //TODO: still some issues correctly adding and removing variables, but kinda works
@@ -173,8 +173,6 @@ export class PermutationsService {
     for(let _ of this.variablesTableList[varIndex][0]){
       this.variablesColumnList[varIndex].push(0);
     }
-    console.log("ligma");
-    console.log(this.variablesTableList[varIndex])
   }
 }
 

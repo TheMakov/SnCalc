@@ -35,22 +35,12 @@ export class AppComponent {
   variableNameList: string[] = [];
   variableValueList: string[] = [];
   variableTableList: number[][][] = [];
+  variableColumnList: number[][] = [];
 
   constructor(private permutationsService: PermutationsService) {}
 
   ngOnInit() {
-    this.permutationsService.getVariablesId().subscribe(id => {
-      this.variablesIdList = id;
-    })
-    this.permutationsService.getVariablesName().subscribe(name => {
-      this.variableNameList = name;
-    })
-    this.permutationsService.getVariablesValueList().subscribe(value => {
-      this.variableValueList = value;
-    })
-    this.permutationsService.getVariablesTableList().subscribe(table => {
-      this.variableTableList = table;
-    })
+    this.getDataFromService()
   }
 
   toggleSidebar() {
@@ -59,6 +49,14 @@ export class AppComponent {
 
   addVariable() {
     this.permutationsService.addVariable()
+  }
+
+  private getDataFromService(){
+    this.variablesIdList = this.permutationsService.getVariablesIdList()
+    this.variableNameList = this.permutationsService.getVariablesNameList()
+    this.variableValueList = this.permutationsService.getVariablesValueList()
+    this.variableTableList = this.permutationsService.getVariablesTableList()
+    this.variableColumnList = this.permutationsService.getVariablesColumnList()
   }
 
 

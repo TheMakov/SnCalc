@@ -37,29 +37,15 @@ export class VariableBoxComponent {
   tableData!: number [][];
 
   checked: any = false;
-  valid! : boolean;
+  valid : boolean = true;
   columns:number[] = [];
 
 
   private index!: number;
 
+  //TODO: How to know if var is valid or not, cause we now have matrix and values combined and the service doesnt know which mode is selected
   ngOnInit() {
-    this.service.getVariablesId().subscribe(id =>{
-      this.index = id.findIndex(id => id === this.variableId);
-    })
-    this.service.getVariablesName().subscribe(name => {
-      this.name = name[this.index]
-    })
-    this.service.getVariablesValueList().subscribe(value => {
-      this.value = value[this.index]
-    })
-    this.service.getVariablesTableList().subscribe(table => {
-      this.tableData = table[this.index]
-    })
-    this.service.getVariablesColumnList().subscribe(column => {
-      this.columns = column[this.index]
-    })
-    this.valid = this.service.matrixIsValid(this.variableId)
+    this.getDataFromService()
   }
 
   //I don't know if I want to let this in see how it feels during further development, but works as intended
@@ -95,7 +81,6 @@ export class VariableBoxComponent {
     const table = document.querySelector("p-table"); // Get the table element
     const inputs = table?.querySelectorAll("input");
 
-
     if (!inputs) return
     let nextIndex = -1;
 
@@ -116,12 +101,10 @@ export class VariableBoxComponent {
     this.usedNumbers = []
     if(this.checked){
       this.service.cyclesToMatrix(this.variableId)
-      console.log(this.variableId, this.name, this.value, this.tableData, this.columns)
-      //this.checked = !this.checked;
+      this.getDataFromService()
     }
     else if(!this.checked){
       this.matrixToCycles()
-      //this.checked = !this.checked;
     }
   }
 
@@ -144,8 +127,6 @@ export class VariableBoxComponent {
 
   //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
   usedNumbers:number[] = [];
-
-
 
   valueIsValid(): boolean{
     const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
@@ -228,6 +209,14 @@ export class VariableBoxComponent {
         this.usedNumbers.push(this.tableData[1][relevantIndex])
       }
     }
+  }
+
+  private getDataFromService(){
+    this.index = this.service.getVariablesIdList().findIndex(id => id === this.variableId);
+    this.name = this.service.getVariablesNameList()[this.index]
+    this.value = this.service.getVariablesValueList()[this.index]
+    this.tableData = this.service.getVariablesTableList()[this.index]
+    this.columns = this.service.getVariablesColumnList()[this.index]
   }
 
 
