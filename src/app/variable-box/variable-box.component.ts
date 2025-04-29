@@ -105,7 +105,6 @@ export class VariableBoxComponent {
   public switchMatrixAndCycles(){
     if(this.checked){
       this.service.cyclesToMatrix(this.variableId)
-      this.getDataFromService()
     }
     else if(!this.checked){
       this.service.matrixToCycles(this.variableId)
