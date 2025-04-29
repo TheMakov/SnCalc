@@ -28,7 +28,7 @@ import {MessageService} from 'primeng/api';
 })
 export class VariableBoxComponent {
 
-  constructor(private service: PermutationsService, private messageService: MessageService) {
+  constructor(protected service: PermutationsService, private messageService: MessageService) {
   }
   //default value, so that I know that something went wrong
 
@@ -65,7 +65,7 @@ export class VariableBoxComponent {
   }
 
   onInputValue(){
-    if(this.valueIsValid()){
+    if(this.service.valueIsValid(this.value)){
       this.service.updateVariable(this.variableId, this.name, this.value, this.tableData, this.columns)
     }
   }
@@ -117,6 +117,8 @@ export class VariableBoxComponent {
     return this.service.matrixIsValid(this.variableId)
   }
 
+  //no need to use the service, cause this is formost for the asthetic purpuses
+  //if value actualy changes the number of columns will be changed by onInputValue()
   private checkMatrixLength(){
     //save columns length before modifying it
     const columnsCount = this.columns.length
@@ -132,29 +134,6 @@ export class VariableBoxComponent {
 
   //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
   usedNumbers:number[] = [];
-
-  valueIsValid(): boolean{
-    const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
-    if (!pattern.test(this.value))return false;
-
-    const groups = this.value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
-
-    if (!groups) return false;
-
-    for (const group of groups) {
-      const numbers = group.replace(/[()]/g, "").split(",").map(Number); // Extract numbers
-      if(numbers.length == 1) return false;
-      const uniqueNumbers = new Set(numbers); // Convert to Set to check uniqueness
-
-      if (uniqueNumbers.size !== numbers.length) {
-        return false; // Found duplicates inside a parenthesis
-      }
-    }
-
-    return true;
-  }
-
-
   private matrixToCycles(){
     //I dont like doing this, but when a value is removed, the empty space might still be read as null in the array => remove all nulls from the array
     this.tableData[0] = this.tableData[0].filter(item => item !== null);

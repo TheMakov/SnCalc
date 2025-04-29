@@ -4,6 +4,10 @@ import {Observable, of} from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
+
+//WICHTIG:
+//Der service speichert nur daten die Richtig sind und rechnet mit denen weiter
+//sind die Daten falsch und man möchte trzdem berrechnen werden die zuletzt richtigen daten verwendet
 export class PermutationsService {
   private variablesIdList: number[] = [0];
   private variablesNameList: string[] = ["test"];
@@ -22,40 +26,38 @@ export class PermutationsService {
     }
 
   }
+  private getIndexToIdInArray(id: number): number{
+    return this.variablesIdList.findIndex((i) => i === id);
+  }
 
-  getVariablesIdList(): number[] {
+  public getVariablesIdList(): number[] {
     // Simulating data fetch
     return this.variablesIdList;
   }
-  getVariablesNameList(): string[] {
+  public  getVariablesNameList(): string[] {
     // Simulating data fetch
     return this.variablesNameList;
   }
-  getVariablesValueList(): string[]{
+  public getVariablesValueList(): string[]{
     // Simulating data fetch
     return this.variablesValueList;
   }
-  getVariablesTableList():number[][][] {
+  public getVariablesTableList():number[][][] {
     return this.variablesTableList;
   }
-  getVariablesColumnList():number[][]{
+  public getVariablesColumnList():number[][]{
     return this.variablesColumnList
   }
 
-  //TODO: still some issues correctly adding and removing variables, but kinda works
+
+
   public removeVariable(id: number) {
-    let index = this.variablesIdList.findIndex((i) => i === id);
+    let index = this.getIndexToIdInArray(id);
     this.variablesIdList.splice(index, 1);
     this.variablesNameList.splice(index, 1);
     this.variablesValueList.splice(index, 1);
     this.variablesTableList.splice(index, 1);
     this.variablesColumnList.splice(index, 1);
-
-    console.log(this.variablesIdList);
-    console.log(this.variablesColumnList);
-    console.log(this.variablesNameList);
-    console.log(this.variablesValueList);
-    console.log(this.variablesTableList);
   }
 
   //all Id's should be unique, one should be able to look up the variable using said id
@@ -74,15 +76,10 @@ export class PermutationsService {
         break;
       }
     }
-    console.log(this.variablesIdList);
-    console.log(this.variablesColumnList);
-    console.log(this.variablesNameList);
-    console.log(this.variablesValueList);
-    console.log(this.variablesTableList);
   }
 
   public updateVariable(id: number, name:string, value: string, tableList: number[][], columnList: number[]) {
-    let index = this.variablesIdList.findIndex((i) => i === id);
+    let index = this.getIndexToIdInArray(id);
     this.variablesNameList[index] = name;
     this.variablesValueList[index] = value;
     this.variablesTableList[index] = tableList;
@@ -91,7 +88,7 @@ export class PermutationsService {
 
 
   matrixIsValid(id: number): boolean {
-    let index = this.variablesIdList.findIndex((i) => i === id);
+    let index = this.getIndexToIdInArray(id);
     if((this.hasDuplicates(this.variablesTableList[index][0]) || this.hasDuplicates(this.variablesTableList[index][1])) || this.hasDifferentNumbers(id)){
       return false
     }
@@ -184,6 +181,28 @@ export class PermutationsService {
     for(let _ of this.variablesTableList[varIndex][0]){
       this.variablesColumnList[varIndex].push(0);
     }
+  }
+
+  valueIsValid( value: string): boolean{
+    console.log("value: "+ value)
+    const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
+    if (!pattern.test(value))return false;
+
+    const groups = value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+
+    if (!groups) return false;
+
+    for (const group of groups) {
+      const numbers = group.replace(/[()]/g, "").split(",").map(Number); // Extract numbers
+      if(numbers.length == 1) return false;
+      const uniqueNumbers = new Set(numbers); // Convert to Set to check uniqueness
+
+      if (uniqueNumbers.size !== numbers.length) {
+        return false; // Found duplicates inside a parenthesis
+      }
+    }
+
+    return true;
   }
 }
 
