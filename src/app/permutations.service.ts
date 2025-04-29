@@ -184,7 +184,6 @@ export class PermutationsService {
   }
 
   valueIsValid( value: string): boolean{
-    console.log("value: "+ value)
     const pattern = /^\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\)(?:\s*\(\s*\d+(?:\s*,\s*\d+)*\s*\))*\s*$/;
     if (!pattern.test(value))return false;
 
@@ -203,6 +202,73 @@ export class PermutationsService {
     }
 
     return true;
+  }
+
+  //isnt the ideal solution but seems to work
+  usedNumbers:number[] = [];
+  public matrixToCycles(id: number) {
+    let index = this.getIndexToIdInArray(id)
+    this.usedNumbers = []
+    let table = this.variablesTableList[index];
+    //I dont like doing this, but when a value is removed, the empty space might still be read as null in the array => remove all nulls from the array
+    table[0] = table[0].filter(item => item !== null);
+    table[1] = table[1].filter(item => item !== null);
+    const length = table[0].length;
+    let j = 0;
+    let cycles:string [] = [];
+    while(j < length){
+      cycles.push(this.addCycle(j, table))
+      //find the next number that is not inside a cycle
+      while(this.usedNumbers.find(x => x == table[0][j]) ){
+        j++;
+      }
+    }
+
+    let out = '';
+    for(let i = 0; i < cycles.length; i++){
+      out += cycles[i];
+    }
+    this.variablesValueList[index] = out
+    console.log("out "+out)
+  }
+
+  private addCycle(j : number, table: number[][]){
+    let cycleString:string =``
+    // find when the first cycle starts
+    while(j<table[0].length){
+      if(table[0][j] !== table[1][j]){
+        cycleString += table[0][j]
+        cycleString += ','
+        cycleString += table[1][j]
+        this.usedNumbers.push(table[0][j])
+        this.usedNumbers.push(table[1][j])
+        break;
+      }
+      else{
+        this.usedNumbers.push(table[0][j])
+        j++;
+      }
+    }
+
+    //add values to the cycle till the first repetition, indicating the cycle to end
+    while(true){
+      if(this.usedNumbers.length == 0){
+        return '()'
+      }
+      let relevantIndex = table[0].findIndex(x => x == (this.usedNumbers)[this.usedNumbers.length - 1]);
+      //value redirects to already used number => we abort
+      if(this.usedNumbers.find(x => x == table[1][relevantIndex])){
+        if(cycleString == ''){
+          return '';
+        }else return '('+cycleString+')'
+      }
+      // we haven't seen the number in the cycle yet => add it to the cycle
+      else {
+        cycleString += ','
+        cycleString += table[1][relevantIndex]
+        this.usedNumbers.push(table[1][relevantIndex])
+      }
+    }
   }
 }
 

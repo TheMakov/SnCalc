@@ -103,14 +103,15 @@ export class VariableBoxComponent {
   }
 
   public switchMatrixAndCycles(){
-    this.usedNumbers = []
     if(this.checked){
       this.service.cyclesToMatrix(this.variableId)
       this.getDataFromService()
     }
     else if(!this.checked){
-      this.matrixToCycles()
+      this.service.matrixToCycles(this.variableId)
     }
+    //refresh the data that is we have stored here
+    this.getDataFromService()
   }
 
   public matrixIsValid():boolean{
@@ -131,69 +132,6 @@ export class VariableBoxComponent {
     }
   }
 
-
-  //I know that this isnt ideal, but I am too lazy to fix it, shouldnt cause any issues, so I dont care
-  usedNumbers:number[] = [];
-  private matrixToCycles(){
-    //I dont like doing this, but when a value is removed, the empty space might still be read as null in the array => remove all nulls from the array
-    this.tableData[0] = this.tableData[0].filter(item => item !== null);
-    this.tableData[1] = this.tableData[1].filter(item => item !== null);
-    const length = this.tableData[0].length;
-    let j = 0;
-    let cycles:string [] = [];
-    while(j < length){
-      cycles.push(this.addCycle(j))
-      //find the next number that is not inside a cycle
-      while(this.usedNumbers.find(x => x == this.tableData[0][j]) ){
-        j++;
-      }
-    }
-
-    let out = '';
-    for(let i = 0; i < cycles.length; i++){
-      out += cycles[i];
-    }
-    this.value = out
-  }
-
-  private addCycle(j : number){
-    let cycleString:string =``
-    // find when the first cycle starts
-    while(j<this.tableData[0].length){
-      if(this.tableData[0][j] !== this.tableData[1][j]){
-        cycleString += this.tableData[0][j]
-        cycleString += ','
-        cycleString += this.tableData[1][j]
-        this.usedNumbers.push(this.tableData[0][j])
-        this.usedNumbers.push(this.tableData[1][j])
-        break;
-      }
-      else{
-        this.usedNumbers.push(this.tableData[0][j])
-        j++;
-      }
-    }
-
-    //add values to the cycle till the first repetition, indicating the cycle to end
-    while(true){
-      if(this.usedNumbers.length == 0){
-        return '()'
-      }
-      let relevantIndex = this.tableData[0].findIndex(x => x == (this.usedNumbers)[this.usedNumbers.length - 1]);
-      //value redirects to already used number => we abort
-      if(this.usedNumbers.find(x => x == this.tableData[1][relevantIndex])){
-        if(cycleString == ''){
-          return '';
-        }else return '('+cycleString+')'
-      }
-      // we haven't seen the number in the cycle yet => add it to the cycle
-      else {
-        cycleString += ','
-        cycleString += this.tableData[1][relevantIndex]
-        this.usedNumbers.push(this.tableData[1][relevantIndex])
-      }
-    }
-  }
 
   private getDataFromService(){
     this.index = this.service.getVariablesIdList().findIndex(id => id === this.variableId);
