@@ -1,6 +1,6 @@
 <main class="main">
   <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar">
-    <variable-box *ngFor="let _ of Array(variablesIdList.length); let id = index"
+    <variable-box *ngFor="let id of getIdList() "
                   [variableId]="id">
     </variable-box>
     <div class ="plus-button">
@@ -14,7 +14,7 @@
     </p-floatlabel>
     <p-button class ="solve-button" label="Solve"></p-button>
     <p-button icon="pi pi-home" aria-label="Save" (click)="toggleSidebar()"></p-button>
-
+    <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
 
 </main>

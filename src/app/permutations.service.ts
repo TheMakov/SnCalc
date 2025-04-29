@@ -50,6 +50,12 @@ export class PermutationsService {
     this.variablesValueList.splice(index, 1);
     this.variablesTableList.splice(index, 1);
     this.variablesColumnList.splice(index, 1);
+
+    console.log(this.variablesIdList);
+    console.log(this.variablesColumnList);
+    console.log(this.variablesNameList);
+    console.log(this.variablesValueList);
+    console.log(this.variablesTableList);
   }
 
   //all Id's should be unique, one should be able to look up the variable using said id
@@ -68,6 +74,11 @@ export class PermutationsService {
         break;
       }
     }
+    console.log(this.variablesIdList);
+    console.log(this.variablesColumnList);
+    console.log(this.variablesNameList);
+    console.log(this.variablesValueList);
+    console.log(this.variablesTableList);
   }
 
   public updateVariable(id: number, name:string, value: string, tableList: number[][], columnList: number[]) {

@@ -8,11 +8,15 @@ import {trigger, state, style, transition, animate} from '@angular/animations';
 import {NgForOf, NgIf} from '@angular/common';
 import {VariableBoxComponent} from './variable-box/variable-box.component';
 import {PermutationsService} from './permutations.service';
+import {Toast} from 'primeng/toast';
+import {MessageService} from 'primeng/api';
 
 
 @Component({
   selector: 'app-root',
-  imports: [ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf],
+
+  imports: [ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast],
+  providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 
@@ -37,7 +41,7 @@ export class AppComponent {
   variableTableList: number[][][] = [];
   variableColumnList: number[][] = [];
 
-  constructor(private permutationsService: PermutationsService) {}
+  constructor(private permutationsService: PermutationsService, private messageService: MessageService) {}
 
   ngOnInit() {
     this.getDataFromService()
@@ -51,12 +55,18 @@ export class AppComponent {
     this.permutationsService.addVariable()
   }
 
+
+  //TODO: What's the point of this exactly ? its only used at initiation or ?
   private getDataFromService(){
     this.variablesIdList = this.permutationsService.getVariablesIdList()
     this.variableNameList = this.permutationsService.getVariablesNameList()
     this.variableValueList = this.permutationsService.getVariablesValueList()
     this.variableTableList = this.permutationsService.getVariablesTableList()
     this.variableColumnList = this.permutationsService.getVariablesColumnList()
+  }
+
+  public getIdList(): number[]{
+    return this.permutationsService.getVariablesIdList()
   }
 
 

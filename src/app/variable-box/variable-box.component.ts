@@ -7,6 +7,7 @@ import {ToggleButton} from 'primeng/togglebutton';
 import { NgForOf, NgIf} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {PermutationsService} from '../permutations.service';
+import {MessageService} from 'primeng/api';
 
 
 @Component({
@@ -27,7 +28,7 @@ import {PermutationsService} from '../permutations.service';
 })
 export class VariableBoxComponent {
 
-  constructor(private service: PermutationsService) {
+  constructor(private service: PermutationsService, private messageService: MessageService) {
   }
   //default value, so that I know that something went wrong
 
@@ -74,7 +75,11 @@ export class VariableBoxComponent {
   }
 
   CloseVariable(){
-    this.service.removeVariable(this.variableId)
+    if(this.service.getVariablesIdList().length > 1){
+      this.service.removeVariable(this.variableId)
+    }else {
+      this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Cant remove last remaining variable', key: 'tl', life: 1000 });
+    }
   }
 
   OnKeyEvent(event:KeyboardEvent, rowIndex:number, colIndex: number ){
