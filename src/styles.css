@@ -8,7 +8,7 @@ html, body {
 
 .helvetica{
   font-family: Helvetica, sans-serif;
-  font-weight: bolder;
+  font-weight: bold;
 }
 
 
@@ -18,15 +18,6 @@ html, body {
   width: 9vw!important;
 }
 
-
-.save-button {
-  margin-top: 0.40vh !important;
-  height: 2em!important;
-  width: 100% !important;
-  margin-left: 0.5em !important;
-  margin-right: 0.5em !important;
-}
-
 .p-togglebutton.p-disabled {
   /* Make it less visible */
   color: rgba(145, 143, 143, 0.62) !important;
@@ -34,9 +25,10 @@ html, body {
 }
 
 .p-togglebutton {
-  background-color: #fff9f9 !important; /* Gray */
+  background-color: #ffffff !important; /* Gray */
   color: #3e3c3c !important;
   border: .2rem solid #424242 !important;
   font-weight: bold !important;
   border-radius: .3rem !important;
+  font-size: .8rem !important;
 }

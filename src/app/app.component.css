@@ -1,7 +1,7 @@
 .main{
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
 }
 .container{
   width: 70%;
@@ -18,15 +18,12 @@
   font-weight: bold;
 }
 
-
-
 .sidebar{
+  padding-left: 0.5em;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  margin-left: 0;
-  width: 25vw;
-  max-height: 100vh;
+  height: 100vh;
+  width: 25em;
   background: #f4f4f4;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -35,7 +32,7 @@
 }
 
 .sidebar::-webkit-scrollbar{
-  width: 0.4vw;
+  width: 0.3em;
 }
 .sidebar::-webkit-scrollbar-thumb {
   background: #cfcfcf; /* Scrollbar color */

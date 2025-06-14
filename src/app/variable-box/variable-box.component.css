@@ -5,6 +5,11 @@
 
 .toggle{
   margin-top: 1vh;
+  ;
+}
+
+::ng-deep .toggle button{
+  width: 28.7em!important;
 }
 
 hr.solid {
@@ -16,8 +21,8 @@ hr.solid {
 
 .button-row{
   display: flex;
-  flex-direction: row;
   align-items: center;
+  justify-content: space-between !important;
 }
 
 
@@ -35,21 +40,32 @@ hr.solid {
   display: flex;
   flex-direction: column;
   padding: 0;
-  width: 15vw;
+  width: 100%;
 }
 
 .input{
-  width: 24vw !important;
-  font-weight:normal;
+  width: 95% !important;
+  font-weight:bold;
   font-family: Helvetica, sans-serif;
-  font-size: 1rem;
+  font-size: 0.7rem;
 }
 
 .matrix-variable{
   margin-top: 1em;
   margin-left: 0.25em;
-  width: 24vw;
+  width: 94.5%;
+  padding: .4em;
+  border-radius: .5em;
+  background-color: white;
+  font-size: 0.7rem;
+  border: 0.1em solid #c9d3df;
 }
+.matrix-inside th,
+.matrix-inside td {
+  text-align: center;
+}
+.matrix-inside tr:last-child td {border-bottom:none !important; }
+
 
 .small-input::-webkit-inner-spin-button,
 .small-input::-webkit-outer-spin-button{
@@ -74,10 +90,10 @@ hr.solid {
 .warning{
   color: #131313;
   text-align: start;
+  font-size: 0.7rem;
 }
 
 .warning-box{
-  margin-left: 1.7vw;
   width: 20vw;
   margin-top: 1em;
   display: flex;
@@ -85,15 +101,34 @@ hr.solid {
   border: .17rem solid #ff0c04;
   border-radius: .6rem;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0em 1em;
 }
 
 .header{
   display: flex;
   flex-direction: row;
-  width: 24vw;
+  width: 95% !important;
   align-items: center;
   justify-content: space-between;
+  background-color: #f2f2f2;
+  margin: 0.1em 0 1em;
+  background-image: radial-gradient(#ccc 0.1em, transparent 0.1em);
+  background-size: 0.4em 0.4em;
+}
+.title{
+  background-color: rgb(242, 242, 242);
+  padding: 0.3em .7em;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 20px 10px rgb(242, 242, 242);
+  border-radius: 1em;
+  font-size: 0.8rem;
 }
 
+.close-button{
+  background-color: rgb(242, 242, 242);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px 10px rgb(242, 242, 242);
+  border-radius: 1em;
+}
 

@@ -8,11 +8,14 @@ import { NgForOf, NgIf} from '@angular/common';
 import {TableModule} from 'primeng/table';
 import {PermutationsService} from '../permutations.service';
 import {MessageService} from 'primeng/api';
+import {DragDropModule} from 'primeng/dragdrop';
+import {CdkDragHandle} from '@angular/cdk/drag-drop';
 
 
 @Component({
   selector: 'variable-box',
   imports: [
+    DragDropModule,
     FloatLabel,
     InputText,
     ReactiveFormsModule,
@@ -22,9 +25,13 @@ import {MessageService} from 'primeng/api';
     NgIf,
     TableModule,
     NgForOf,
+    CdkDragHandle,
   ],
   templateUrl: './variable-box.component.html',
-  styleUrl: './variable-box.component.css'
+  styleUrl: './variable-box.component.css',
+  host: {
+    '[class.cdk-drag]': 'true' // Important: sets necessary drag class
+  }
 })
 export class VariableBoxComponent {
 

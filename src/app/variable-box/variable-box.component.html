@@ -1,7 +1,7 @@
 <div class = " helvetica main-container" >
-  <div class="header">
+  <div class="header" cdkDragHandle>
     <p class = "helvetica title">Variable</p>
-    <p-button icon="pi pi-times" [rounded]="true"  [text]="true" (onClick)="CloseVariable()"/>
+    <p-button icon="pi pi-times" [rounded]="true"  [text]="true" (onClick)="CloseVariable()" class ="close-button"/>
   </div>
   <p-floatlabel variant="on">
     <input pSize="large" class="input" pInputText id="over_label_name" [(ngModel)]="name" (input) = "onInputValue()" autocomplete="off" />
@@ -12,8 +12,8 @@
     <label class="helvetica" for="over_label_value">Value</label>
   </p-floatlabel>
 
-  <div class="matrix-variable helvetica" *ngIf="checked">
-    <p-table [value]="tableData" [style]="{'width': '100%'}">
+  <div class="matrix-variable" *ngIf="checked">
+    <p-table class ="matrix-inside" [value]="tableData" [style]="{'width': '100%'}">
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of columns; let colIndex = index">
@@ -22,7 +22,7 @@
         </tr>
       </ng-template>
 
-      <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <ng-template  pTemplate="body" let-rowData let-rowIndex="rowIndex">
         <tr>
           <td *ngFor="let col of columns; let colIndex = index" pEditableColumn>
             <p-cellEditor>
@@ -46,7 +46,7 @@
     <i class="pi pi-exclamation-circle" style="font-size: 1.5rem; color: #ff4d00"></i>
   </div>
   <div class = "button-row">
-    <p-toggle-button [disabled] = !(this.service.valueIsValid(this.value)&&matrixIsValid()) [(ngModel)]="checked" (onChange)="switchMatrixAndCycles()" class = "toggle helvetica" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
+    <p-toggle-button [disabled] = !(this.service.valueIsValid(this.value)&&matrixIsValid()) [(ngModel)]="checked" (onChange)="switchMatrixAndCycles()" class = "toggle" onLabel="Switch to Expression" offLabel="Switch to Matrix" styleClass="min-b-24"  ></p-toggle-button>
   </div>
 
   <hr class="solid">
