@@ -18,7 +18,7 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, CdkDropList, CdkDrag, NgClass],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, CdkDropList, CdkDrag],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',

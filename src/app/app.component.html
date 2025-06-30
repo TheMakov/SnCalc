@@ -1,20 +1,20 @@
 <main class="main">
-  <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar" cdkDropList
-       [cdkDropListData]="getIdList()" (cdkDropListDropped)="drop($event)">
+  <div [@toggle_sidebar]="sidebar ? 'open' : 'closed'" class="sidebar">
     <variable-box *ngFor="let id of getIdList() "
-                  [variableId]="id" cdkDrag cdkDragLockAxis="y" >
+                  [variableId]="id" >
     </variable-box>
     <div class ="plus-button">
       <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true" (onClick)="addVariable()"></p-button>
     </div>
   </div>
+  <p-button class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
   <div class = "container">
     <p-floatlabel variant="on">
       <input pSize="large"  pInputText id="over_label" [(ngModel)]="value" autocomplete="off" />
       <label class="helvetica" for="over_label">Enter equation</label>
     </p-floatlabel>
     <p-button class ="solve-button" label="Solve"></p-button>
-    <p-button icon="pi pi-home" aria-label="Save" (click)="toggleSidebar()"></p-button>
+
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
 

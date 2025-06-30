@@ -48,8 +48,13 @@
 }
 
 input {
-  width: 55vw;
-  height: 3em;
+  width: 40em;
+  height: 2.5em;
+}
+
+.sidebar-toggle{
+  margin-top: 1em;
+  margin-left: -8em;
 }
 
 
