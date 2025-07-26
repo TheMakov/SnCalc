@@ -5,19 +5,20 @@ import {InputText} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {trigger, state, style, transition, animate} from '@angular/animations';
-import { NgForOf} from '@angular/common';
+import {NgForOf, NgIf} from '@angular/common';
 import {VariableBoxComponent} from './variable-box/variable-box.component';
 import {PermutationsService} from './permutations.service';
 import {Toast} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
 import {DragDropModule} from 'primeng/dragdrop';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import {TableModule} from 'primeng/table';
 
 
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -61,6 +62,12 @@ export class AppComponent {
   variableValueList: string[] = [];
   variableTableList: number[][][] = [];
   variableColumnList: number[][] = [];
+  isSolved:boolean = false;
+  solutionMatrix: number[][] = [
+    [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20],
+    [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+  ]
+  solutionCycle:string = "(1,2,3)(1,7)"
 
   constructor(private permutationsService: PermutationsService, private messageService: MessageService) {}
 

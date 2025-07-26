@@ -19,8 +19,31 @@
         <img height="50" src='https://cdn.ko-fi.com/cdn/kofi5.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
       </a>
     </div>
-    <p-scrollpanel class ="result-box" [style]="{ width: '50em', height: '20em' }">
-      test
+    <p-scrollpanel class ="result-box" [style]="{ width: '50em', height: '30em' }">
+      <p class="big-caption">Solution</p>
+      <p class ="caption">Matrix:</p>
+      <div class="matrix-variable">
+        <p-table class ="matrix-inside" [value]="solutionMatrix" [style]="{'width': '100%'}" [selectionMode]="null" >
+          <ng-template pTemplate="header" >
+            <tr>
+              <th *ngFor="let _ of solutionMatrix[0]; let colIndex = index">
+                Column {{ colIndex + 1 }}
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template  pTemplate="body" let-rowData let-rowIndex="rowIndex">
+            <tr>
+              <td *ngFor="let _ of solutionMatrix[0]; let colIndex = index" pEditableColumn>
+                {{ solutionMatrix[rowIndex][colIndex] }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+      <div class ="space"></div>
+      <p class ="caption">Cycles:</p>
+      <p class ="solution-cycles">{{solutionCycle}}</p>
     </p-scrollpanel>
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
