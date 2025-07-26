@@ -7,14 +7,16 @@
       <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true" (onClick)="addVariable()"></p-button>
     </div>
   </div>
-  <p-button class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
-  <div class = "container">
+  <p-button [@move_toggle] ="sidebar ? 'open' : 'closed'" class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
+  <div [@move_input]="sidebar ? 'open' : 'closed'" class = "container">
     <p-floatlabel variant="on">
       <input pSize="large"  pInputText id="over_label" [(ngModel)]="value" autocomplete="off" />
       <label class="helvetica" for="over_label">Enter equation</label>
     </p-floatlabel>
     <p-button class ="solve-button" label="Solve"></p-button>
-
+    <p-scrollpanel class ="result-box" [style]="{ width: '50em', height: '25em' }">
+      test
+    </p-scrollpanel>
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
 

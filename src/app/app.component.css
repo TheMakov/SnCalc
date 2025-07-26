@@ -57,4 +57,19 @@ input {
   margin-left: -8em;
 }
 
+.result-box{
+  border: 0.1em solid rgba(50, 50, 50, 0.63);
+  border-radius: 0.25em;
+  padding: 0.5em;
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+  font-size: .9em;
+  font-weight: bold;
+  background: rgba(99, 255, 158, 0.52); /* Transparent white */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px); /* The frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* Safari support */
+  color: #393939;
+}
+
 

@@ -5,20 +5,19 @@ import {InputText} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {trigger, state, style, transition, animate} from '@angular/animations';
-import {NgClass, NgForOf, NgIf} from '@angular/common';
+import { NgForOf} from '@angular/common';
 import {VariableBoxComponent} from './variable-box/variable-box.component';
 import {PermutationsService} from './permutations.service';
 import {Toast} from 'primeng/toast';
 import {MessageService} from 'primeng/api';
-import {Sidebar} from 'primeng/sidebar';
 import {DragDropModule} from 'primeng/dragdrop';
-import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 
 
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, CdkDropList, CdkDrag],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -31,7 +30,24 @@ import {CdkDrag, CdkDropList} from '@angular/cdk/drag-drop';
       transition('open <=> closed', [
         animate('500ms ease-in-out')
       ])
-    ])
+    ]),
+
+    trigger('move_input', [
+      state('open', style({ marginRight: '-0em' })),
+      state('closed', style({ marginRight: '17em' })),
+
+      transition('open <=> closed', [
+        animate('500ms ease-in-out')
+      ])
+    ]),
+      trigger('move_toggle', [
+        state('open', style({ marginRight: '-0em' })),
+        state('closed', style({ marginRight: '-18em' })),
+
+        transition('open <=> closed', [
+          animate('500ms ease-in-out')
+        ])
+      ])
   ]
 })
 export class AppComponent {
