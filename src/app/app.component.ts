@@ -33,7 +33,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
     ]),
 
     trigger('move_input', [
-      state('open', style({ marginRight: '-0em' })),
+      state('open', style({ marginRight: '3em' })),
       state('closed', style({ marginRight: '17em' })),
 
       transition('open <=> closed', [
@@ -41,7 +41,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
       ])
     ]),
       trigger('move_toggle', [
-        state('open', style({ marginRight: '-0em' })),
+        state('open', style({ marginRight: '-3em' })),
         state('closed', style({ marginRight: '-18em' })),
 
         transition('open <=> closed', [
@@ -51,6 +51,8 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
   ]
 })
 export class AppComponent {
+  currentYear: number = new Date().getFullYear();
+
   title = 'sn-calc';
   value: any;
   sidebar = true;
@@ -89,11 +91,4 @@ export class AppComponent {
     return this.permutationsService.getVariablesIdList()
   }
 
-  public drop($event:any) {
-
-  }
-
-
-
-  protected readonly Array = Array;
 }

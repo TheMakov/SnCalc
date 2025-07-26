@@ -13,12 +13,17 @@
       <input pSize="large"  pInputText id="over_label" [(ngModel)]="value" autocomplete="off" />
       <label class="helvetica" for="over_label">Enter equation</label>
     </p-floatlabel>
-    <p-button class ="solve-button" label="Solve"></p-button>
-    <p-scrollpanel class ="result-box" [style]="{ width: '50em', height: '25em' }">
+    <div class ="solve-buttons">
+      <p-button class ="solve-button" label="Solve"></p-button>
+      <a href='https://ko-fi.com/makov' target='_blank'>
+        <img height="50" src='https://cdn.ko-fi.com/cdn/kofi5.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+      </a>
+    </div>
+    <p-scrollpanel class ="result-box" [style]="{ width: '50em', height: '20em' }">
       test
     </p-scrollpanel>
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
-
+  <p class ="footer">© {{ currentYear }} Mihail Prudnikov. All rights reserved.</p>
 </main>
 <router-outlet />
