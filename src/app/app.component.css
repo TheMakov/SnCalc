@@ -17,7 +17,17 @@
   margin: 2em;
   font-weight: bold;
 }
+::ng-deep .solve-button .p-button{
+  background-color: rgba(24, 209, 66, 0.91); /* darker on hover */
+  color: #ffffff;
+  border-radius: .5em;
+  border: none;
+}
 
+::ng-deep .solve-button .p-button:hover {
+  background-color: rgba(60, 218, 105, 0.7); /* darker on hover */
+  color: #ffffff;
+}
 .sidebar{
   padding-left: 0.5em;
   display: flex;
@@ -134,6 +144,7 @@ input {
   border-radius: 0.25em;
   padding: 0.25em;
   color: white;
+  margin-top:1em;
 }
 .space{
   margin: 2em;
@@ -144,6 +155,16 @@ input {
   font-weight: bold;
   text-align: left;
   font-family: Helvetica, sans-serif;
+}
+.close-solution{
+  position: absolute;
+  right: 1em;
+  bottom: 1em;
+}
+
+.problem-input{
+  font-family: Helvetica, sans-serif;
+
 }
 
 

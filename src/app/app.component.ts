@@ -48,7 +48,15 @@ import {TableModule} from 'primeng/table';
         transition('open <=> closed', [
           animate('500ms ease-in-out')
         ])
+      ]),
+    trigger('solve_open', [
+      state('open', style({ marginTop: '15em' })),
+      state('closed', style({ marginTop: '25em' })),
+
+      transition('open <=> closed', [
+        animate('350ms ease-in-out')
       ])
+    ])
   ]
 })
 export class AppComponent {
@@ -68,7 +76,7 @@ export class AppComponent {
     [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   ]
   solutionCycle:string = "(1,2,3)(1,7)"
-  syntaxIsCorrect:boolean = false;
+  syntaxIsCorrect:boolean = true;
 
   constructor(private permutationsService: PermutationsService, private messageService: MessageService) {}
 
@@ -120,6 +128,7 @@ export class AppComponent {
 
   protected closeSolution(){
     this.isSolved = false;
+    this.syntaxIsCorrect = true;
   }
 
 }
