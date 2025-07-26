@@ -9,6 +9,8 @@
   </div>
   <p-button [@move_toggle] ="sidebar ? 'open' : 'closed'" class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
   <div [@solve_open] = "isSolved ? 'open' : 'closed'" [@move_input]="sidebar ? 'open' : 'closed'" class = "container">
+    <img priority class ="banner" ngSrc="banner.webp" height="155" width="685" style="user-select: none; -webkit-user-drag: none;"
+         alt="Non-selectable image">
     <div *ngIf="!syntaxIsCorrect" class = "warn">Input is incorrect! Check entered cycles or variables</div>
     <p-floatlabel variant="on">
       <input class = "problem-input" pSize="large" pInputText id="over_label" [(ngModel)]="problem" autocomplete="off" />
@@ -49,6 +51,6 @@
     </p-scrollpanel>
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
-  <p class ="footer">© {{ currentYear }} Mihail Prudnikov. All rights reserved.</p>
+  <p class ="footer">© {{ currentYear }} Mihail Prudnikov. All rights reserved. Report any issues <a href="https://github.com/TheMakov/SnCalc/issues" class="custom-link">here</a> </p>
 </main>
 <router-outlet />

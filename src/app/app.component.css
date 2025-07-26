@@ -75,11 +75,11 @@ input {
   text-align: center;
   font-size: .9em;
   font-weight: bold;
-  background: rgba(99, 255, 158, 0.52); /* Transparent white */
+  background: rgb(210, 255, 227); /* Transparent white */
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10px); /* The frosted glass effect */
   -webkit-backdrop-filter: blur(10px); /* Safari support */
-  color: #393939;
+  color: #000000;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -107,7 +107,7 @@ input {
 }
 .matrix-inside tr:last-child td {border-bottom:none !important; }
 .matrix-variable{
-  margin: 2em auto;
+  margin: .1em auto;
   width: 94.5%;
   padding: .4em;
   border-radius: .5em;
@@ -124,34 +124,33 @@ input {
   font-family: Helvetica, sans-serif;
   font-size: 1em;
   font-weight: bold;
-  margin:1em auto;
+  margin:.3em auto;
   width: 94.5%;
 }
 
 .caption{
-  text-decoration:underline;
+  margin:2.5em auto .3em auto;
   font-weight: bolder;
   font-size: 1.25em;
   color: #494949;
 }
 
 .big-caption{
-  text-decoration:underline;
   font-weight: bolder;
   font-size: 1.5em;
-  background-color: rgba(47, 115, 75, 0.52);
-  width: 100%;
+  background-color: rgb(164, 255, 176);
+  width: 70%;
   border-radius: 0.25em;
   padding: 0.25em;
-  color: white;
-  margin-top:1em;
+  color: rgba(46, 46, 46, 0.76);
+  margin:1em auto .1em auto;
 }
 .space{
   margin: 2em;
 }
 
 .warn{
-  color: red;
+  color: rgba(255, 65, 65, 0.82);
   font-weight: bold;
   text-align: left;
   font-family: Helvetica, sans-serif;
@@ -165,6 +164,16 @@ input {
 .problem-input{
   font-family: Helvetica, sans-serif;
 
+}
+
+.banner{
+  margin-right:2.3em;
+  margin-bottom:4em;
+}
+
+.custom-link{
+  color: inherit;      /* Make link same color as parent text */
+  text-decoration: underline
 }
 
 

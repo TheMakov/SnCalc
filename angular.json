@@ -26,7 +26,8 @@
                 "input": "public"
 
               },
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/banner.webp"
             ],
             "styles": [
               "src/styles.css",

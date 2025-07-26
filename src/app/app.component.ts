@@ -5,7 +5,7 @@ import {InputText} from 'primeng/inputtext';
 import {FormsModule} from '@angular/forms';
 import {FloatLabel} from 'primeng/floatlabel';
 import {trigger, state, style, transition, animate} from '@angular/animations';
-import {NgForOf, NgIf} from '@angular/common';
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common';
 import {VariableBoxComponent} from './variable-box/variable-box.component';
 import {PermutationsService} from './permutations.service';
 import {Toast} from 'primeng/toast';
@@ -18,7 +18,7 @@ import {TableModule} from 'primeng/table';
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule, NgIf],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule, NgIf, NgOptimizedImage],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -50,11 +50,19 @@ import {TableModule} from 'primeng/table';
         ])
       ]),
     trigger('solve_open', [
-      state('open', style({ marginTop: '15em' })),
-      state('closed', style({ marginTop: '25em' })),
+      state('open', style({ marginTop: '3em' })),
+      state('closed', style({ marginTop: '10em' })),
 
       transition('open <=> closed', [
         animate('350ms ease-in-out')
+      ])
+    ]),
+    trigger('solve_open_2', [
+      state('open', style({ marginTop: '3em' })),
+      state('closed', style({ marginTop: '7em' })),
+
+      transition('open <=> closed', [
+        animate('500ms ease-in-out')
       ])
     ])
   ]
