@@ -9,12 +9,13 @@
   </div>
   <p-button [@move_toggle] ="sidebar ? 'open' : 'closed'" class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
   <div [@move_input]="sidebar ? 'open' : 'closed'" class = "container">
+    <div *ngIf="!syntaxIsCorrect" class = "warn">Input is incorrect! Check entered cycles or variables</div>
     <p-floatlabel variant="on">
-      <input pSize="large"  pInputText id="over_label" [(ngModel)]="value" autocomplete="off" />
+      <input pSize="large" pInputText id="over_label" [(ngModel)]="problem" autocomplete="off" />
       <label class="helvetica" for="over_label">Enter equation</label>
     </p-floatlabel>
     <div class ="solve-buttons">
-      <p-button class ="solve-button" label="Solve"></p-button>
+      <p-button class ="solve-button" label="Solve" (click)="Solve()"></p-button>
       <a href='https://ko-fi.com/makov' target='_blank'>
         <img height="50" src='https://cdn.ko-fi.com/cdn/kofi5.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
       </a>

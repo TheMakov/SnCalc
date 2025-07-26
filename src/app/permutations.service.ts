@@ -17,6 +17,7 @@ export class PermutationsService {
     [1, 2]
   ]]
   private variablesColumnList: number[][] = [[0, 0, 0]]
+  private variablesCheckedList: boolean[] = [false]
   constructor() {
     for (let j = 0; j < this.variablesIdList.length; j++) {
       for(let _ in this.variablesTableList[j][0]){
@@ -48,6 +49,9 @@ export class PermutationsService {
   public getVariablesColumnList():number[][]{
     return this.variablesColumnList
   }
+  public getVariablesCheckedList():boolean[]{
+    return this.variablesCheckedList;
+  }
 
 
 
@@ -58,6 +62,7 @@ export class PermutationsService {
     this.variablesValueList.splice(index, 1);
     this.variablesTableList.splice(index, 1);
     this.variablesColumnList.splice(index, 1);
+    this.variablesCheckedList.splice(index, 1);
   }
 
   //all Id's should be unique, one should be able to look up the variable using said id
@@ -73,6 +78,7 @@ export class PermutationsService {
           [2,1]
         ])
         this.variablesColumnList.push([0,0,0])
+        this.variablesCheckedList.push(false);
         break;
       }
     }
@@ -84,6 +90,10 @@ export class PermutationsService {
     this.variablesValueList[index] = value;
     this.variablesTableList[index] = tableList;
     this.variablesColumnList[index] = columnList;
+  }
+  public updateVariableChecked(id: number, checked: boolean) {
+    let index = this.getIndexToIdInArray(id);
+    this.variablesCheckedList[index] = checked;
   }
 
 
@@ -118,20 +128,32 @@ export class PermutationsService {
 
   public cyclesToMatrix(id: number) {
     let varIndex = this.variablesIdList.findIndex((i) => i === id);
-    let regExp = this.variablesValueList[varIndex].match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
+    let matrix = this.computeCyclesToMatrix(this.variablesValueList[varIndex]);
+    this.variablesTableList[varIndex] = matrix;
+    //reset the number of columns and calculate the new correct amount
+    this.variablesColumnList[varIndex] = []
+    for(let _ of matrix[0]){
+      this.variablesColumnList[varIndex].push(0);
+    }
+  }
+
+  public computeCyclesToMatrix(value:string):number[][] {
+    let matrix = [
+      [1, 2],
+      [1, 2]
+    ]
+    let regExp = value.match(/\(([^)]+)\)/g); // Extracts "(1,2,3)" parts
     let groups:string[] = []
     if(regExp){
       groups = Array.from(regExp);
     }
     else {
-      this.variablesTableList[varIndex] = [
-        [1, 2],
-        [1, 2]
-      ];
+      console.error("couldnt compute Cycles to Matrix");
+      return matrix;
     }
 
     //clear all preexisting data
-    this.variablesTableList[varIndex]= [
+    matrix = [
       [],
       []
     ];
@@ -142,45 +164,42 @@ export class PermutationsService {
       let numbersToAdd = [...numbers]
       //add new data at the end
       for(let number of numbers){
-        if(this.variablesTableList[varIndex][0].includes(number)){
+        if(matrix[0].includes(number)){
           let index = numbersToAdd.findIndex((num: any)  => num === number);
           numbersToAdd.splice(index, 1);
         }
       }
-      this.variablesTableList[varIndex][0].push(...numbersToAdd);
-      this.variablesTableList[varIndex][1].push(...numbersToAdd);
+      matrix[0].push(...numbersToAdd);
+      matrix[1].push(...numbersToAdd);
     }
 
     //FUCK TS OR ANGULAR AND HOW THEY HANDLE REFERENCES IT TOOK ME FOREVER TO CHECK IF THE VALUES ARE SORTED AS THEY SHOULD
-    this.variablesTableList[varIndex].forEach(row => row.sort((a, b) => a - b));
+    matrix.forEach(row => row.sort((a, b) => a - b));
 
     for(let i = groups.length-1; i>=0; i--){
       const numbers = groups[i].replace(/[()]/g, "").split(",").map(Number);
-      let arrayCopy = [...this.variablesTableList[varIndex][1]]
+      let arrayCopy = [...matrix[1]]
       for(let j = 0 ; j < numbers.length; j++){
         let index: number = arrayCopy.findIndex(number => number === numbers[j]);
         if(j === numbers.length-1){
-          this.variablesTableList[varIndex][1][index] = numbers[0];
+         matrix[1][index] = numbers[0];
         }
         else {
-          this.variablesTableList[varIndex][1][index] = numbers[j+1];
+          matrix[1][index] = numbers[j+1];
         }
       }
     }
     //cleanup of unnecessary data
-    let tableCopy = [...this.variablesTableList[varIndex][0]];
+    let tableCopy = [...matrix[0]];
     for(let number of tableCopy){
-      let index = this.variablesTableList[varIndex][0].findIndex(num => num == number)
-      if(this.variablesTableList[varIndex][0][index] === this.variablesTableList[varIndex][1][index]){
-        this.variablesTableList[varIndex][1].splice(index, 1);
-        this.variablesTableList[varIndex][0].splice(index, 1);
+      let index = matrix[0].findIndex(num => num == number)
+      if(matrix[0][index] === matrix[1][index]){
+        matrix[1].splice(index, 1);
+        matrix[0].splice(index, 1);
       }
     }
-    //reset the number of columns and calculate the new correct amount
-    this.variablesColumnList[varIndex] = []
-    for(let _ of this.variablesTableList[varIndex][0]){
-      this.variablesColumnList[varIndex].push(0);
-    }
+    return matrix;
+
   }
 
   valueIsValid( value: string): boolean{
@@ -208,8 +227,14 @@ export class PermutationsService {
   usedNumbers:number[] = [];
   public matrixToCycles(id: number) {
     let index = this.getIndexToIdInArray(id)
+    let table = this.variablesTableList[index]
+    let cycle = this.computeMatrixToCycles(table);
+    this.variablesValueList[index] = cycle
+  }
+
+  public computeMatrixToCycles(table:number[][]):string {
     this.usedNumbers = []
-    let table = this.variablesTableList[index];
+    ;
     //I dont like doing this, but when a value is removed, the empty space might still be read as null in the array => remove all nulls from the array
     table[0] = table[0].filter(item => item !== null);
     table[1] = table[1].filter(item => item !== null);
@@ -228,8 +253,7 @@ export class PermutationsService {
     for(let i = 0; i < cycles.length; i++){
       out += cycles[i];
     }
-    this.variablesValueList[index] = out
-    console.log("out "+out)
+    return out
   }
 
   private addCycle(j : number, table: number[][]){
@@ -269,6 +293,28 @@ export class PermutationsService {
         this.usedNumbers.push(table[1][relevantIndex])
       }
     }
+  }
+
+  public CheckProblemSyntax(problem: string){
+    const pattern = /^(\(\s*\d+\s*(?:,\s*\d+\s*)+\)|var\(\s*[a-zA-Z]+\s*\))(?:\s*(\(\s*\d+\s*(?:,\s*\d+\s*)+\)|var\(\s*[a-zA-Z]+\s*\)))*$/;
+    return pattern.test(problem);
+  }
+  public ReplaceVariables(problem: string):string{
+    const varRegex = /var\(\s*([a-zA-Z]+)\s*\)/g;
+    const output = problem.replace(varRegex, (match, varName) => {
+      let id = this.variablesNameList.findIndex((name) => name === varName)
+
+      if( this.variablesCheckedList[id]){
+        //update the variable value that it matches the Matrix value
+        this.matrixToCycles(id)
+        return this.variablesValueList[id] ?? `undefined`;
+      }
+      else{
+        return this.variablesValueList[id] ?? `undefined`;
+      }
+    });
+
+    return output
   }
 }
 

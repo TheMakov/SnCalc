@@ -18,7 +18,7 @@ import {TableModule} from 'primeng/table';
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule, NgIf],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -55,7 +55,7 @@ export class AppComponent {
   currentYear: number = new Date().getFullYear();
 
   title = 'sn-calc';
-  value: any;
+  problem: any;
   sidebar = true;
   variablesIdList: number[] = [];
   variableNameList: string[] = [];
@@ -68,6 +68,7 @@ export class AppComponent {
     [1,2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
   ]
   solutionCycle:string = "(1,2,3)(1,7)"
+  syntaxIsCorrect:boolean = false;
 
   constructor(private permutationsService: PermutationsService, private messageService: MessageService) {}
 
@@ -96,6 +97,29 @@ export class AppComponent {
 
   public getIdList(): number[]{
     return this.permutationsService.getVariablesIdList()
+  }
+
+  protected Solve(){
+    if(this.permutationsService.CheckProblemSyntax(this.problem)){
+      this.syntaxIsCorrect = true;
+      let newProblem = this.permutationsService.ReplaceVariables(this.problem)
+      if(newProblem == 'undefined'){
+        this.syntaxIsCorrect = false;
+        return;
+      }
+      let resultMatrix = this.permutationsService.computeCyclesToMatrix(newProblem)
+      this.solutionCycle  = this.permutationsService.computeMatrixToCycles(resultMatrix)
+      this.solutionMatrix = resultMatrix
+      if(this.solutionCycle == ""){this.solutionCycle = "id"; this.solutionMatrix = [[1,2],[1,2]]}
+      this.isSolved = true;
+    }
+    else{
+      this.syntaxIsCorrect = false
+    }
+  }
+
+  protected closeSolution(){
+    this.isSolved = false;
   }
 
 }

@@ -117,6 +117,7 @@ export class VariableBoxComponent {
       this.service.matrixToCycles(this.variableId)
     }
     //refresh the data that is we have stored here
+    this.service.updateVariableChecked(this.variableId, this.checked)
     this.getDataFromService()
   }
 

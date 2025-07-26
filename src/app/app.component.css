@@ -139,4 +139,11 @@ input {
   margin: 2em;
 }
 
+.warn{
+  color: red;
+  font-weight: bold;
+  text-align: left;
+  font-family: Helvetica, sans-serif;
+}
+
 
