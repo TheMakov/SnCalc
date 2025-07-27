@@ -43,8 +43,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './dist/sn-calc/browser'
+          path: './dist/sn-calc/browser/'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
