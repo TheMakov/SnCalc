@@ -1,7 +1,8 @@
-name: gh actions build script
-# a chunk of this is from Github's script for Jekyll sites
+# this is a modification of Github's static site deployer script
+name: Deploy Angular site to pages
 
 on:
+  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
 
@@ -21,7 +22,11 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # Single deploy job since we're just deploying
   deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,7 +43,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # uploading build directory
-          # this path should include everything of note
+          # Upload entire repository
           path: './dist/sn-calc/browser'
-
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
