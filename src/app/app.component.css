@@ -13,15 +13,27 @@
 }
 .solve-button{
   font-family: Helvetica,sans-serif;
-  font-size: .9vw;
-  margin: 2em;
+  font-size: 1em;
+  margin: 1.75em 1em;
   font-weight: bold;
 }
+::ng-deep .info-button .p-button{
+  background-color: rgba(19, 174, 150, 0.91) !important;
+  width: 8em !important;
+}
+
+::ng-deep .info-button .p-button:hover{
+  background-color: rgba(24, 138, 209, 0.91) !important;
+}
+
 ::ng-deep .solve-button .p-button{
   background-color: rgba(24, 209, 66, 0.91); /* darker on hover */
   color: #ffffff;
   border-radius: .5em;
   border: none;
+  height: 2.5em;
+  width: 5em;
+  font-size: 1.1em;
 }
 
 ::ng-deep .solve-button .p-button:hover {
@@ -96,7 +108,7 @@ input {
   position: absolute;
   bottom: 10px;
   right: 10px;
-  font-size: 0.5em;
+  font-size: 75%;
   font-family: Helvetica, sans-serif;
   color: #666;
 }
@@ -181,7 +193,7 @@ input {
 }
 
 .kofi-button{
-  margin-top:0.2em;
+  margin:0.2em 1em;
   height: 2.6em;
 }
 
@@ -195,6 +207,17 @@ input {
 .close-solution{
   margin-top: -2em;
   margin-left: -3em;
+}
+
+.tutorial{
+  font-family: Helvetica, sans-serif;
+}
+.tutorial-bold{
+  font-weight: bold;
+}
+
+.indent{
+  margin-left: 2em;
 }
 
 

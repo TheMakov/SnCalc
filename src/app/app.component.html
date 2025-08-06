@@ -7,6 +7,23 @@
       <p-button class ="plus-button" icon = "pi pi-plus-circle" [outlined]="true" [raised]="true" [rounded]="true" (onClick)="addVariable()"></p-button>
     </div>
   </div>
+  <p-dialog class="tutorial" header="About this tool" [modal]="true" [(visible)]="dialogueIsVisible" [style]="{ width: '60rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [maximizable]="false">
+    <h2 class ="tutorial-bold">About:</h2>
+    <p class ="indent">
+      This is a calculator for computing elements of symetric groups, or permutations, made with Angular, it takes a the provided string of cycles and permutation matrices and simplifies them.
+      You can declare variables in the sidebar and use them your computation.
+      The result will be provided in form of a permutation Matrix and the shortest string of cycles that make up the original problem.
+    </p>
+    <h2 class ="tutorial-bold">How to use:</h2>
+    <ul>
+      <li>Use the Cycle notation for permutation for Element declaration and separate each element with a comma e.g. (1,2,3)(2,7)</li>
+      <li>Create Variables in the Sidebar using the Cycle notation or using permuation-matrix</li>
+      <li>switch to the permutation-matrix notation using the button below the variable</li>
+      <li>add new variables using the plus button in the sidebar. Remove Variables using the X nest to the variable</li>
+      <li>To use the variables in the calculation write var(name) and replace name with the name of your variable </li>
+      <li>To compte the problem press the "solve" button</li>
+    </ul>
+  </p-dialog>
   <p-button [@move_toggle] ="sidebar ? 'open' : 'closed'" class="sidebar-toggle" [icon]="sidebar ? 'pi pi-chevron-left': 'pi pi-chevron-right'"  aria-label="Save" (click)="toggleSidebar()"></p-button>
   <div [@solve_open] = "isSolved ? 'open' : 'closed'" [@move_input]="sidebar ? 'open' : 'closed'" class = "container">
     <img priority class ="banner"  width="685" height="155" ngSrc="banner.webp" alt="Non-selectable image">
@@ -17,6 +34,7 @@
     </p-floatlabel>
     <div class ="solve-buttons">
       <p-button class ="solve-button" label="solve" (click)="Solve()"></p-button>
+      <p-button class ="solve-button info-button" label="How to use" severity ="info" (click)="Info()"></p-button>
       <a  href='https://ko-fi.com/makov' target='_blank'>
         <img class="kofi-button" height="50" src='https://cdn.ko-fi.com/cdn/kofi5.png?v=3' border='0' alt='Buy Me a Coffee at ko-fi.com' />
       </a>
@@ -53,6 +71,6 @@
     </p-scrollpanel>
     <p-toast class="helvetica" position="bottom-center" key ="tl"></p-toast>
   </div>
-  <p class ="footer">© {{ currentYear }} Mihail Prudnikov. All rights reserved. Report any issues <a href="https://github.com/TheMakov/SnCalc/issues" class="custom-link">here</a> </p>
+  <p class ="footer">© {{ currentYear }} Mihail Prudnikov. All rights reserved. <a href="https://github.com/TheMakov/SnCalc/issues" class="custom-link">Report issues</a></p>
 </main>
 <router-outlet />

@@ -13,12 +13,13 @@ import {MessageService} from 'primeng/api';
 import {DragDropModule} from 'primeng/dragdrop';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import {TableModule} from 'primeng/table';
+import {Dialog} from 'primeng/dialog';
 
 
 @Component({
   selector: 'app-root',
 
-  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule, NgIf, NgOptimizedImage],
+  imports: [DragDropModule, ButtonModule, RouterOutlet, FormsModule, FloatLabel, InputText, VariableBoxComponent, NgForOf, Toast, ScrollPanelModule, TableModule, NgIf, NgOptimizedImage, Dialog],
   providers: [MessageService],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
@@ -72,6 +73,7 @@ export class AppComponent {
 
   title = 'sn-calc';
   problem: any;
+  dialogueIsVisible: boolean = false;
   sidebar = true;
   variablesIdList: number[] = [];
   variableNameList: string[] = [];
@@ -139,4 +141,7 @@ export class AppComponent {
     this.syntaxIsCorrect = true;
   }
 
+  Info() {
+    this.dialogueIsVisible = true;
+  }
 }
