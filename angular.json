@@ -30,7 +30,8 @@
 
               },
               "src/favicon.ico",
-              "src/banner.webp"
+              "src/banner.webp",
+              "src/sitemap.xml"
             ],
             "styles": [
               "src/styles.css",
