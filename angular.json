@@ -16,9 +16,12 @@
             "outputPath": "dist/sn-calc",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "server": "src/main.server.ts",
             "polyfills": [
               "zone.js"
             ],
+            "prerender": true,
+            "ssr": false,
             "tsConfig": "tsconfig.app.json",
             "assets": [
               {
