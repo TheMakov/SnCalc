@@ -7,3 +7,6 @@ inside of variables. This will be automaticaly converted into cycles. Inside the
 variables using var(*variable name*) in connection with other cycles
 ## output
 the result will be given as the resulting permutation matrix and as the coresponding shortened combination of permutations. 
+
+## try it out yourself
+https://themakov.github.io/SnCalc/
